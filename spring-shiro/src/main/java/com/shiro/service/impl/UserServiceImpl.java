@@ -10,6 +10,7 @@ import com.shiro.entity.SysUser;
 import com.shiro.entity.SysUserExample;
 import com.shiro.entity.SysUserExample.Criteria;
 import com.shiro.service.UserService;
+import com.shiro.util.ShiroUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,5 +29,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return selectByExample.get(0);
 	}
+
 
 }

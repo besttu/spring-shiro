@@ -94,5 +94,12 @@ even after a JVM restart.  -->
            eternal="false"
            timeToLiveSeconds="600"
            overflowToDisk="false"/>
+           
+              
+    <!-- 登录记录缓存 锁定10分钟 -->    
+    <cache name="passwordRetryCache" eternal="false"    
+        timeToIdleSeconds="0" timeToLiveSeconds="600" overflowToDisk="false"    
+        maxBytesLocalHeap="10M" statistics="true">    
+    </cache>    
 
 </ehcache>
