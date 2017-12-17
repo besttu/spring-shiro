@@ -38,7 +38,7 @@
 		<div class="login-logo"></div>
 		<!-- /.login-logo -->
 		<h3>${error }</h3>
-		<form action="login"
+		<form action="/admin/doLogin"
 			data-validator-option="{theme:'bootstrap', timely:2, theme:'simple_bottom'}"
 			method="get">
 			<div class="login-box-body">
@@ -58,7 +58,7 @@
 						<div class="col-lg-4">
 							<div class="form-group has-feedback mg">
 								<input type="text" class="form-control" name="captcha"
-									placeholder="验证码" data-rule="验证码:required;length(5);" size="5">
+									placeholder="验证码" data-rule="验证码:;" size="5">
 								<span
 									class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
 							</div>
@@ -67,7 +67,7 @@
 							<div class="form-group has-feedback">
 								<img alt="如果看不清楚，请单击图片刷新！" class="pointer img"
 									src="/admin/captcha"> <a
-									href="javascript:$('.img').attr('src','/login/captcha');">点击刷新</a>
+									href="javascript:$('.img').attr('src','/admin/login/captcha');">点击刷新</a>
 							</div>
 						</div>
 					</div>

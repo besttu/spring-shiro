@@ -55,12 +55,6 @@
 		<property name="unauthorizedUrl" value="/error/illegalAccess" />
 		<property name="filterChainDefinitions">
 			<value>
-				/favicon.ico = anon
-				/app/** = anon
-				/plugins/** = anon
-				/login/captcha = anon
-				/login/doLogin = anon
-				/login = anon
 				/admin/doLogin = anon
 				/admin/captcha = anon
 				/logout = logout

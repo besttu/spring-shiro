@@ -47,28 +47,27 @@ public class LoginController extends BaseController {
 	 */
 	@Log("登陆验证")
 	@RequestMapping("/doLogin")
-	public String doLogin(SysUser u, RedirectAttributesModelMap model) {
+	public String doLogin(SysUser u, Model model) {
 		Subject currentUser = SecurityUtils.getSubject();
-		UsernamePasswordToken token = new UsernamePasswordToken(u.getUsername(), u.getPassword());
 		if (!currentUser.isAuthenticated()) {
-			// token.setRememberMe(true);
+			UsernamePasswordToken token = new UsernamePasswordToken(u.getUsername(), u.getPassword());
+			token.setRememberMe(true);
 			try {
-				token.setRememberMe(true);
 				currentUser.login(token);
 			} catch (UnknownAccountException uae) {
-				model.addFlashAttribute("error", "未知用户");
+				model.addAttribute("error", "未知用户");
 				return redirectTo("admin/login");
 			} catch (IncorrectCredentialsException ice) {
-				model.addFlashAttribute("error", "密码错误");
+				model.addAttribute("error", "密码错误");
 				return redirectTo("admin/login");
 			} catch (LockedAccountException lae) {
-				model.addFlashAttribute("error", "账号已锁定");
+				model.addAttribute("error", "账号已锁定");
 				return redirectTo("admin/login");
 			} catch (ExcessiveAttemptsException ae) {
-				model.addFlashAttribute("error", "请10分钟后再重试");
+				model.addAttribute("error", "请10分钟后再重试");
 				return redirectTo("admin/login");
 			} catch (Exception e) {
-				model.addFlashAttribute("error", "其他错误");
+				model.addAttribute("error", "其他错误");
 				return redirectTo("admin/login");
 			}
 		}

@@ -12,21 +12,11 @@ import com.shiro.service.UserService;
 import com.shiro.util.ShiroUtil;
 
 @Controller
-@RequestMapping("/admin/user/")
-public class UserController extends BaseController {
-	@Autowired
-	UserService userService;
-
-	@RequestMapping("getUser")
-	@ResponseBody
-	public SysUser getUser() {
-		SysUser sessionUser = ShiroUtil.getSessionUser();
-		sessionUser.setPassword(null);
-		return sessionUser;
-	}
-
+@RequestMapping("/admin/role/")
+public class RoleController extends BaseController {
+	
 	@RequestMapping("list")
 	public String index() {
-		return "admin/user/list";
+		return "admin/role/list";
 	}
 }

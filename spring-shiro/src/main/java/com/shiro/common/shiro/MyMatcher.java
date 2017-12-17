@@ -35,7 +35,7 @@ public class MyMatcher extends HashedCredentialsMatcher {
 			passwordRetryCache.put(username, retryCount); // 放入缓存中
 		}
 
-		if (retryCount.incrementAndGet() > 3) { // 如果用户登录次数超过三次（此处可根据需要自定义）
+		if (retryCount.incrementAndGet() > 5) { // 如果用户登录次数超过三次（此处可根据需要自定义）
 			throw new ExcessiveAttemptsException(); // 抛出用户锁定异常类
 		}
 
