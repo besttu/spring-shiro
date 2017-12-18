@@ -46,7 +46,6 @@ public class MyRealm extends AuthorizingRealm {
 	@Autowired
 	private RoleMenuService sysRoleMenuService;
 
-
 	/**
 	 * 认证
 	 */
@@ -77,6 +76,7 @@ public class MyRealm extends AuthorizingRealm {
 		SysUser sysUser = (SysUser) principals.getPrimaryPrincipal();
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		Set<String> roleIds = sysUserRoleService.findRolesByUid(sysUser.getId());
+		System.out.println("roleIds:" + roleIds);
 		Set<String> permissions = sysRoleMenuService.findMenusByUid(sysUser.getId());
 		info.setRoles(roleIds);
 		info.setStringPermissions(permissions);

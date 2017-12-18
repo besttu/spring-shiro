@@ -203,6 +203,8 @@
 		sys_role r on r.id=ur.roleId left join
 		sys_role_menu rm on
 		rm.roleId=r.id left join sys_menu m on
-		m.id=rm.menuId where u.id=#{userId};
+		m.id=rm.menuId where u.id=#{userId} and m.resource is not null and
+		m.deep=3
+		and m.resource != "";
 	</select>
 </mapper>

@@ -9,6 +9,7 @@ var index = {
 		this.getAllTree(f);
 		// 获取用户信息
 		this.getUser();
+		// 格式化当前日期
 	},
 	getAllTree : function(callback) {
 		var leftText = "";
@@ -79,6 +80,24 @@ var index = {
 	},
 	initFrameValue : function(p1, p2) {
 		($("#heaader1").text(p1 + ">" + p2))
+	},
+	UnixToDate : function(unixTime, isFull, timeZone) {
+		if (typeof (timeZone) == 'number') {
+			unixTime = parseInt(unixTime) + parseInt(timeZone) * 60 * 60;
+		}
+		var time = new Date(unixTime * 1000);
+		var ymdhis = "";
+		ymdhis += time.getUTCFullYear() + "-";
+		ymdhis += (time.getUTCMonth() + 1) + "-";
+		ymdhis += time.getUTCDate();
+		if (isFull === true) {
+			ymdhis += " " + time.getUTCHours() + ":";
+			ymdhis += time.getUTCMinutes() + ":";
+			ymdhis += time.getUTCSeconds();
+		}
+		return ymdhis;
 	}
 
 }
+
+

@@ -197,12 +197,12 @@
 		where Id = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="findRolesByUid" parameterType="java.lang.String"
-		resultSets="java.lang.String">
+		resultType="java.lang.String">
 		select r.roleName
 		from
 		sys_user u left join sys_user_role ur
 		on ur.userId = u.id left join
 		sys_role r on r.id=ur.roleId where
-		u.id=#{userId};
+		u.id=#{userId} ;
 	</select>
 </mapper>
