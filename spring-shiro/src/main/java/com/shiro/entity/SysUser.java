@@ -28,12 +28,19 @@ public class SysUser implements Serializable {
 		this.id = id == null ? null : id.trim();
 	}
 
+	@Override
+	public String toString() {
+		return "SysUser [id=" + id + ", username=" + username + ", password=" + password + ", userstate=" + userstate
+				+ ", createtime=" + createtime + ", userdesc=" + userdesc + ", userimg=" + userimg + ", deptid="
+				+ deptid + "]";
+	}
+
 	public String getUsername() {
 		return username;
 	}
 
 	public void setUsername(String username) {
-		this.username = username == null ? null : username.trim();
+		this.username = username;
 	}
 
 	public String getPassword() {

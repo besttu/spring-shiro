@@ -17,7 +17,7 @@
 			</div>
 			<div class="form-group">
 				<label for="password">密码</label> <input type="text" id="password"
-					name="password" value="" class="form-control" p
+					name="password" value="" class="form-control" lay-verify="pass"
 					laceholder="不填写则为默认密码">
 			</div>
 			<div class="form-group">
@@ -27,14 +27,10 @@
 			</div>
 			<div class="form-group">
 				<div class="">
-					<input type="radio" name="userstate" value="1"
-						${(u.userstate==1)?'checked':'' } title="启用"> <input
-						${(u.userstate!=1)?'checked':'' } type="radio" name="userstate"
-						value="-1" title="未启用">
+					<input type="radio" name="userstate" value="1" checked title="启用">
+					<input type="radio" name="userstate" value="-1" title="未启用">
 				</div>
 			</div>
-
-
 			<div class="form-group">
 				<select name="deptid">
 					<option value="">请选择部门</option>
@@ -50,7 +46,7 @@
 		</div>
 		<div class="form-group">
 			<c:forEach items="${roles }" var="r">
-				<input type="checkbox" name="roleIds" class="role1" name="role"
+				<input type="checkbox" name="roleIds" lay-verify="role1"  class="role1" name="role"
 					value=${r.id } title="${r.rolename }" />
 			</c:forEach>
 		</div>
@@ -68,16 +64,7 @@
 </body>
 <script
 	src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
-<script type="text/javascript">
-	$(".role2").each(function() {
-		var self = $(this)
-		$(".role1").each(function() {
-			if (self.val() == $(this).val()) {
-				$(this).attr("checked", "checked")
-			}
-		})
-	})
-</script>
+
 <script src="static/plugins/layui/layui.all.js">
 	
 </script>
@@ -85,8 +72,8 @@
 	var form = layui.form
 	form.verify({
 		title : function(value) {
-			if (value.length < 5) {
-				return '标题至少得5个字符';
+			if (value.length < 2) {
+				return '标题至少得2个字符';
 			}
 		},
 		pass : [ /(.+){6,12}$/, '密码必须6到12位' ],
@@ -94,19 +81,24 @@
 			if ($("#password").val() != value) {
 				return '密码不一致'
 			}
-		}
+		},
+	
 	});
 
 	//监听提交  
 	form.on('submit(demo1)', function(data) {
 		var index = parent.layer.getFrameIndex(window.name);
-		$.post("admin/user/doEdit/", $("#form1").serialize(), function(d, s) {
+		$.post("admin/user/doAdd/", $("#form1").serialize(), function(d, s) {
+			console.log(d)
+			console.log(s)
 			if (s = "success") {
 				parent.layer.closeAll()
 				parent.editSuccess()
 			} else {
 				layer.msg("修改失败")
 			}
+		}, function() {
+			alert("s")
 		})
 		return false;
 	});

@@ -26,4 +26,20 @@ public class UserRoleServiceImpl implements UserRoleService {
 
 	}
 
+	@Override
+	public Set<String> getRoleIdByUid(String id) {
+		// TODO Auto-generated method stub
+		SysUserRoleExample e = new SysUserRoleExample();
+		Criteria c = e.createCriteria();
+		c.andUseridEqualTo(id);
+		List<SysUserRole> selectByExample = userRoleMapper.selectByExample(e);
+		Set<String> l = new HashSet<String>();
+		for (SysUserRole ur : selectByExample) {
+			String roleid = ur.getRoleid();
+			l.add(roleid);
+		}
+		l.add("");
+		return l;
+	}
+
 }

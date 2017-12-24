@@ -19,6 +19,13 @@
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
+					<shiro:hasPermission name="addUser">
+						<div class="input-group">
+							<a class="btn btn-primary dialog" id="createUser"
+								href="javascript:;" data-url="admin/user/add" data-width="850"
+								data-height="550"><i class="fa fa-plus"></i> 创建新用户</a>
+						</div>
+					</shiro:hasPermission>
 					<table id="example1" action="/system/log/list/1"
 						class="table table-bordered table-hover dataTable">
 						<thead>
@@ -49,14 +56,18 @@ var table;
 	$(function() {
 		table=$('#example1')
 				.DataTable(
-						{
+						{	
 							"lengthChange" : false,
 							"info" : true,
 							"autoWidth" : false,
 							"processing" : true,
 							"ordering" : false,
 							"serverSide" : true,
-							"ajax" : "/admin/user/getAll",
+							"ajax" : {
+								"url":"admin/user/getAll",
+								"type":"POST"
+							},
+							  
 							"columns" : [ {
 								"data" : "id"
 							}, {
@@ -117,12 +128,27 @@ var table;
 
 						})
 						
+						//添加用户操作
+						$("#createUser").click(function(){
+							
+							layer.open({
+								 shadeClose: true,
+							      shade: false,
+							      maxmin: true, //开启最大化最小化按钮
+							      area: ['893px', '600px'],
+								  type: 2, 
+								  content: "admin/user/add"
+								}); 
+							
+							
+						})
+						
 	})
 		function del(id){
-		layer.confirm('您是如何看待前端开发？', {
+		layer.confirm('确认要删除？', {
 			  btn: ['确认','取消'] //按钮
 			}, function(){
-				$.get("/admin/user/del/"+id,function(data,status){
+				$.get("admin/user/del/"+id,function(data,status){
 					if(status=="success"){
 						layer.msg('删除成功', {icon: 1});
 						table.ajax.reload();
@@ -136,9 +162,24 @@ var table;
 			  
 			});
 			}
+	 
 	function edit(id){
-		alert(id)
+	layer.open({
+			 shadeClose: true,
+		      shade: false,
+		      maxmin: true, //开启最大化最小化按钮
+		      area: ['893px', '600px'],
+			  type: 2, 
+			  content: "admin/user/edit/"+id 
+			}); 
 			}	
+	
+	function editSuccess(){
+		layer.msg("修改成功")
+		table.ajax.reload();
+	}
+	
+	
 			
 </script>
 <!-- /.content -->

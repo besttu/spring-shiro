@@ -299,7 +299,7 @@
 	</update>
 
 	<select id="getTree" parameterType="String" resultMap="BaseResultMap">
-		select m.*
+		select distinct  m.*
 		from sys_user u left join sys_user_role ur on
 		ur.userId =
 		u.id left join
@@ -308,7 +308,8 @@
 		on
 		rm.roleId=r.id left join sys_menu m on
 		m.id=rm.menuId where
-		u.id=#{userId} order by m.sort;
+		u.id=#{userId} and m.deep is not null and r.roleState=1 order by
+		m.sort;
 	</select>
 
 

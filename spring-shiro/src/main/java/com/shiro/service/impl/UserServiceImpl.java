@@ -1,7 +1,10 @@
 package com.shiro.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.shiro.authc.credential.CredentialsMatcher;
+import org.apache.shiro.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,13 +12,17 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.StringUtil;
 import com.mysql.fabric.xmlrpc.base.Data;
+import com.shiro.common.shiro.MyRealm;
 import com.shiro.dao.SysDeptMapper;
 import com.shiro.dao.SysUserMapper;
+import com.shiro.dao.SysUserRoleMapper;
 import com.shiro.entity.SysDept;
 import com.shiro.entity.SysDeptExample;
 import com.shiro.entity.SysUser;
 import com.shiro.entity.SysUserExample;
 import com.shiro.entity.SysUserExample.Criteria;
+import com.shiro.entity.SysUserRole;
+import com.shiro.entity.SysUserRoleExample;
 import com.shiro.pojo.DataTable;
 import com.shiro.service.UserService;
 import com.shiro.util.ShiroUtil;
@@ -27,6 +34,8 @@ public class UserServiceImpl implements UserService {
 	SysUserMapper userMapper;
 	@Autowired
 	SysDeptMapper deptMapper;
+	@Autowired
+	SysUserRoleMapper userRoleMapper;
 
 	@Override
 	public SysUser getUser(String name) {
@@ -81,6 +90,55 @@ public class UserServiceImpl implements UserService {
 	public SysUser getUserById(String id) {
 		// TODO Auto-generated method stub
 		return userMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public void editUser(SysUser u, String[] roleIds) {
+		// TODO Auto-generated method stub
+		if (u.getPassword() == null || u.getPassword().trim().equals("")) {
+			u.setPassword(null);
+		} else {
+			u.setPassword(MyRealm.validatePassword(u.getPassword()));
+		}
+		if (u.getUserimg() == null || u.getUserimg().trim().equals("")) {
+			u.setUserimg("static/dist/img/avatar5.png");
+		}
+		userMapper.updateByPrimaryKeySelective(u);// 更新用户信息
+		// 绑定之前先删除原有的用户角色之间的关联
+		SysUserRoleExample e = new SysUserRoleExample();
+		com.shiro.entity.SysUserRoleExample.Criteria c = e.createCriteria();
+		c.andUseridEqualTo(u.getId());
+		userRoleMapper.deleteByExample(e);
+		SysUserRole ur = new SysUserRole();
+		if (roleIds != null) {
+			for (String r : roleIds) {
+				String id = UUID.randomUUID().toString();
+				ur.setRoleid(r);
+				ur.setUserid(u.getId());
+				ur.setId(id);
+				userRoleMapper.insert(ur);
+			}
+
+		}
+
+	}
+
+	@Override
+	public void saveUser(SysUser user, String[] roleIds) {
+		// TODO Auto-generated method stub
+		user.setId(UUID.randomUUID().toString());
+		SysUserRole ur = new SysUserRole();
+		if (roleIds != null) {
+			for (String s : roleIds) {
+				String id = UUID.randomUUID().toString();
+				ur.setRoleid(s);
+				ur.setUserid(user.getId());
+				ur.setId(id);
+				userRoleMapper.insert(ur);
+			}
+		}
+		userMapper.insertSelective(user);
+
 	}
 
 }

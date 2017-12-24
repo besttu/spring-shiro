@@ -45,20 +45,20 @@
 
 		<!-- ./wrapper -->
 		<!-- jQuery 3 -->
-		<script src="/static/plugins/jquery/dist/jquery.min.js"></script>
+		<script src="static/plugins/jquery/dist/jquery.min.js"></script>
 		<!-- REQUIRED JS SCRIPTS -->
 		<!-- Bootstrap 3.3.7 -->
-		<script src="/static/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="static/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
 		<!-- AdminLTE App -->
-		<script src="/static/dist/js/adminlte.min.js"></script>
+		<script src="static/dist/js/adminlte.min.js"></script>
 		<!-- DataTables -->
 		<script
-			src="/static/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+			src="static/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
 		<script
-			src="/static/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-		<script src="/static/custom/index.js"></script>
+			src="static/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+		<script src="static/custom/index.js"></script>
 
-		<script src="/static/plugins/layui/layui.all.js"></script>
+		<script src="static/plugins/layui/layui.all.js"></script>
 		<!--
 		Optionally, you can add Slimscroll and FastClick pluginss.
      Both of these pluginss are recommended to enhance the

@@ -18,5 +18,9 @@ public interface UserService {
 	public void deleteUser(String id);
 
 	public SysUser getUserById(String id);
+	
+	public void editUser(SysUser u,String[] roleIds);
+
+	public void saveUser(SysUser user, String[] roleIds);
 
 }

@@ -4,23 +4,18 @@
 <html>
 <head>
 <title>AdminLTE 2 | Starter</title>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
-%>
-<base href="${path} " />
+<base href="${path }" />
 <link rel="stylesheet"
-	href="/static/plugins/bootstrap/dist/css/bootstrap.min.css">
+	href="static/plugins/bootstrap/dist/css/bootstrap.min.css">
 <!-- Font Awesome -->
 <link rel="stylesheet"
-	href="/static/plugins/font-awesome/css/font-awesome.min.css">
+	href="static/plugins/font-awesome/css/font-awesome.min.css">
 <!-- Ionicons -->
 <link rel="stylesheet"
-	href="/static/plugins/Ionicons/css/ionicons.min.css">
+	href="static/plugins/Ionicons/css/ionicons.min.css">
 <!-- Theme style -->
-<link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
-<link rel="stylesheet" href="/static/dist/css/skins/skin-blue.min.css">
+<link rel="stylesheet" href="static/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="static/dist/css/skins/skin-blue.min.css">
 <style type="text/css">
 .has-feedback .form-control {
 	height: 50px;
@@ -34,11 +29,12 @@
 </style>
 </head>
 <body class="hold-transition login-page">
+	<h3>${path }</h3>
 	<div class="login-box">
 		<div class="login-logo"></div>
 		<!-- /.login-logo -->
 		<h3>${error }</h3>
-		<form action="/admin/doLogin"
+		<form action="admin/doLogin"
 			data-validator-option="{theme:'bootstrap', timely:2, theme:'simple_bottom'}"
 			method="get">
 			<div class="login-box-body">
@@ -58,16 +54,15 @@
 						<div class="col-lg-4">
 							<div class="form-group has-feedback mg">
 								<input type="text" class="form-control" name="captcha"
-									placeholder="验证码" data-rule="验证码:;" size="5">
-								<span
+									placeholder="验证码" data-rule="验证码:;" size="5"> <span
 									class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
 							</div>
 						</div>
 						<div class="col-lg-8">
 							<div class="form-group has-feedback">
 								<img alt="如果看不清楚，请单击图片刷新！" class="pointer img"
-									src="/admin/captcha"> <a
-									href="javascript:$('.img').attr('src','/admin/login/captcha');">点击刷新</a>
+									src="admin/captcha"> <a
+									href="javascript:$('.img').attr('src','admin/login/captcha');">点击刷新</a>
 							</div>
 						</div>
 					</div>
@@ -93,12 +88,12 @@
 	<!-- REQUIRED JS SCRIPTS -->
 
 	<!-- jQuery 3 -->
-	<script src="/static/plugins/jquery/dist/jquery.min.js"></script>
+	<script src="static/plugins/jquery/dist/jquery.min.js"></script>
 	<!-- Bootstrap 3.3.7 -->
 	<!-- iCheck 1.0.1 -->
 	<!-- 	<script src="/plugins/iCheck/icheck.min.js"></script>
 nice-validator-1.0.8 -->
 	<script
-		src="/static/plugins/nice-validator-1.0.8/jquery.validator.js?local=zh-CN"></script>
+		src="static/plugins/nice-validator-1.0.8/jquery.validator.js?local=zh-CN"></script>
 </body>
 </html>

@@ -61,4 +61,12 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.shiro.interceptor.GlobalInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>      

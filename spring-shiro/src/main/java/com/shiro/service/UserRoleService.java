@@ -10,4 +10,6 @@ public interface UserRoleService {
 
 	Set<String> findRolesByUid(String id);
 
+	Set<String> getRoleIdByUid(String id);
+
 }

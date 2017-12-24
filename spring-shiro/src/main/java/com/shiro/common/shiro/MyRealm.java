@@ -75,12 +75,15 @@ public class MyRealm extends AuthorizingRealm {
 		// TODO Auto-generated method stub
 		SysUser sysUser = (SysUser) principals.getPrimaryPrincipal();
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		Set<String> roleIds = sysUserRoleService.findRolesByUid(sysUser.getId());
-		System.out.println("roleIds:" + roleIds);
+		Set<String> roleNames = sysUserRoleService.findRolesByUid(sysUser.getId());
 		Set<String> permissions = sysRoleMenuService.findMenusByUid(sysUser.getId());
-		info.setRoles(roleIds);
+		info.setRoles(roleNames);
 		info.setStringPermissions(permissions);
 		return info;
+	}
+
+	public static String validatePassword(String passworld) {
+		return new SimpleHash("MD5", passworld, GlobalSetting.salt, 1024).toString();
 	}
 
 	/**

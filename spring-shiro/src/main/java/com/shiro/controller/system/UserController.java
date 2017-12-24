@@ -1,7 +1,10 @@
 package com.shiro.controller.system;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.shiro.controller.BaseController;
 import com.shiro.entity.SysUser;
 import com.shiro.pojo.DataTable;
+import com.shiro.service.DeptService;
+import com.shiro.service.RoleService;
+import com.shiro.service.UserRoleService;
 import com.shiro.service.UserService;
 import com.shiro.util.ShiroUtil;
 
@@ -21,6 +27,12 @@ import com.shiro.util.ShiroUtil;
 public class UserController extends BaseController {
 	@Autowired
 	UserService userService;
+	@Autowired
+	DeptService deptService;
+	@Autowired
+	RoleService roleService;
+	@Autowired
+	UserRoleService userRoleService;
 
 	@RequestMapping("getUser")
 	@ResponseBody
@@ -52,12 +64,38 @@ public class UserController extends BaseController {
 		userService.deleteUser(id);
 	}
 
-	@RequiresPermissions("editUser")
+	// @RequiresPermissions("editUser")
 	@RequestMapping("edit/{id}")
 	public String edit(@PathVariable String id, HttpServletRequest req) {
 		SysUser userById = userService.getUserById(id);
+		// SysDept deptById = deptService.getDeptById(userById.getDeptid());
 		req.setAttribute("u", userById);
+		// userById.setPassword(deptById.getDeptname());
+		req.setAttribute("roles", roleService.getAll());// 获取所有用户
+		req.setAttribute("deptList", deptService.getAll());//
+		req.setAttribute("roleIds", userRoleService.getRoleIdByUid(userById.getId()));
 		return "admin/user/edit";
+	}
+
+	// @RequiresPermissions("editUser")
+	@RequestMapping("doEdit")
+	@ResponseBody
+	public void doEdit(String[] roleIds, SysUser user) {
+		userService.editUser(user, roleIds);
+	}
+
+	@RequiresPermissions("addUser")
+	@RequestMapping("add")
+	public String add(HttpServletRequest req) {
+		req.setAttribute("roles", roleService.getAll());// 获取所有用户
+		req.setAttribute("deptList", deptService.getAll());//
+		return "admin/user/add";
+	}
+
+	@RequiresPermissions("addUser")
+	@RequestMapping("doAdd")
+	public void doAdd(String[] roleIds, SysUser user) {
+		userService.saveUser(user, roleIds);
 	}
 
 }
