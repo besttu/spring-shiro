@@ -21,9 +21,9 @@
 				<div class="box-body">
 					<shiro:hasPermission name="addUser">
 						<div class="input-group">
-							<a class="btn btn-primary dialog" id="createUser"
-								href="javascript:;" data-url="admin/user/add" data-width="850"
-								data-height="550"><i class="fa fa-plus"></i> 创建新用户</a>
+							<a class="btn btn-primary dialog layer1" id="createUser"
+								href="javascript:void(0);" layer-url="admin/user/add"
+								layer-title="创建新用户"><i class="fa fa-plus"></i> 创建新用户</a>
 						</div>
 					</shiro:hasPermission>
 					<table id="example1" action="/system/log/list/1"
@@ -56,16 +56,20 @@ var table;
 	$(function() {
 		table=$('#example1')
 				.DataTable(
-						{	
+						{
+							"drawCallback": function( settings ) {
+								index.bindLayer()
+						    },
 							"lengthChange" : false,
 							"info" : true,
 							"autoWidth" : false,
 							"processing" : true,
 							"ordering" : false,
 							"serverSide" : true,
+							 "cache": false,
 							"ajax" : {
 								"url":"admin/user/getAll",
-								"type":"POST"
+								"type":"POST",
 							},
 							  
 							"columns" : [ {
@@ -112,8 +116,8 @@ var table;
 										"data" : null,
 										"render" : function(data, type, row) {
 												var id = data.id
-												var operation = <shiro:hasPermission name="deleteUser">'<span onclick=edit("'+id+'")  class="label label-info">编辑</span>'</shiro:hasPermission>
-												operation+=""+<shiro:hasPermission name="deleteUser">'<span class="label label-danger" onclick=del("'+id+'") label-danger">删除</span>'</shiro:hasPermission>
+												var operation = <shiro:hasPermission name="editUser">'<a href="javascript:void(0)" layer-url="admin/user/edit/'+id+'" layer-title="编辑"  class="label label-info layer1">编辑</a>'+</shiro:hasPermission>""
+												operation+=""+<shiro:hasPermission name="deleteUser">'<a href="javascript:void(0)" layer-url="admin/user/del/'+id+'" layer-title="删除"   class="label label-danger label-danger layer1">删除</a>'</shiro:hasPermission>
 												return operation
 										},
 									
@@ -127,59 +131,15 @@ var table;
 									} ],
 
 						})
-						
 						//添加用户操作
-						$("#createUser").click(function(){
-							
-							layer.open({
-								 shadeClose: true,
-							      shade: false,
-							      maxmin: true, //开启最大化最小化按钮
-							      area: ['893px', '600px'],
-								  type: 2, 
-								  content: "admin/user/add"
-								}); 
-							
-							
-						})
 						
 	})
-		function del(id){
-		layer.confirm('确认要删除？', {
-			  btn: ['确认','取消'] //按钮
-			}, function(){
-				$.get("admin/user/del/"+id,function(data,status){
-					if(status=="success"){
-						layer.msg('删除成功', {icon: 1});
-						table.ajax.reload();
-					}else{
-						layer.msg('删除失败', {icon: 1});
-					}
-					 
-				})
-			 
-			}, function(){
-			  
-			});
-			}
-	 
-	function edit(id){
-	layer.open({
-			 shadeClose: true,
-		      shade: false,
-		      maxmin: true, //开启最大化最小化按钮
-		      area: ['893px', '600px'],
-			  type: 2, 
-			  content: "admin/user/edit/"+id 
-			}); 
-			}	
-	
-	function editSuccess(){
-		layer.msg("修改成功")
-		table.ajax.reload();
+ 
+	function reload(msg){
+		if(msg){
+			layer.msg(msg)
+		}
+		table.draw(false)
 	}
-	
-	
-			
 </script>
 <!-- /.content -->

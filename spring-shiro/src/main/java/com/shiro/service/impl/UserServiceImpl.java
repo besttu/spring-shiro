@@ -12,7 +12,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.StringUtil;
 import com.mysql.fabric.xmlrpc.base.Data;
+import com.shiro.common.GlobalSetting;
 import com.shiro.common.shiro.MyRealm;
+import com.shiro.common.shiro.PasswordHash;
 import com.shiro.dao.SysDeptMapper;
 import com.shiro.dao.SysUserMapper;
 import com.shiro.dao.SysUserRoleMapper;
@@ -36,6 +38,8 @@ public class UserServiceImpl implements UserService {
 	SysDeptMapper deptMapper;
 	@Autowired
 	SysUserRoleMapper userRoleMapper;
+	@Autowired
+	PasswordHash passwordHash;
 
 	@Override
 	public SysUser getUser(String name) {
@@ -71,11 +75,14 @@ public class UserServiceImpl implements UserService {
 			if (u.getDeptid() == null) {
 				continue;
 			}
-			SysDeptExample example = new SysDeptExample();
-			com.shiro.entity.SysDeptExample.Criteria createCriteria = example.createCriteria();
-			createCriteria.andIdEqualTo(u.getDeptid());
-			SysDept selectByExample = deptMapper.selectByExample(example).get(0);
-			u.setDeptid(selectByExample.getDeptname());
+			String pid = u.getDeptid();
+			if (pid != null) {
+				SysDept selectByPrimaryKey = deptMapper.selectByPrimaryKey(u.getDeptid());
+				if (selectByPrimaryKey == null) {
+					continue;
+				}
+				u.setDeptid(selectByPrimaryKey.getDeptname());
+			}
 		}
 		return l;
 	}
@@ -127,6 +134,11 @@ public class UserServiceImpl implements UserService {
 	public void saveUser(SysUser user, String[] roleIds) {
 		// TODO Auto-generated method stub
 		user.setId(UUID.randomUUID().toString());
+		if (user != null && !user.equals("")) {
+			String p = passwordHash.toHex(user.getPassword(), GlobalSetting.salt);
+			System.out.println("ps:" + p);
+			user.setPassword(p);
+		}
 		SysUserRole ur = new SysUserRole();
 		if (roleIds != null) {
 			for (String s : roleIds) {

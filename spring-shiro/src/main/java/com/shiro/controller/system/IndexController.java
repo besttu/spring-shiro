@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.shiro.entity.SysMenu;
 import com.shiro.pojo.TreeMenu;
 import com.shiro.service.MenuService;
+import com.shiro.util.ShiroUtil;
 
 @Controller
 @RequestMapping("/admin")

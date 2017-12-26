@@ -1,10 +1,7 @@
 package com.shiro.controller.system;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.shiro.common.shiro.PasswordHash;
 import com.shiro.controller.BaseController;
 import com.shiro.entity.SysUser;
 import com.shiro.pojo.DataTable;
@@ -60,11 +58,10 @@ public class UserController extends BaseController {
 	@RequestMapping("del/{id}")
 	@ResponseBody
 	public void del(@PathVariable String id) {
-		System.out.println("id:" + id);
 		userService.deleteUser(id);
 	}
 
-	// @RequiresPermissions("editUser")
+	@RequiresPermissions("editUser")
 	@RequestMapping("edit/{id}")
 	public String edit(@PathVariable String id, HttpServletRequest req) {
 		SysUser userById = userService.getUserById(id);
@@ -77,7 +74,7 @@ public class UserController extends BaseController {
 		return "admin/user/edit";
 	}
 
-	// @RequiresPermissions("editUser")
+	@RequiresPermissions("editUser")
 	@RequestMapping("doEdit")
 	@ResponseBody
 	public void doEdit(String[] roleIds, SysUser user) {
@@ -94,6 +91,7 @@ public class UserController extends BaseController {
 
 	@RequiresPermissions("addUser")
 	@RequestMapping("doAdd")
+	@ResponseBody
 	public void doAdd(String[] roleIds, SysUser user) {
 		userService.saveUser(user, roleIds);
 	}

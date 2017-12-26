@@ -3,12 +3,12 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <section class="content-header">
 	<h1>
-		<small id="heaader1">123</small>
+		<small class="header1" id="heaader1">123</small>
 	</h1>
 </section>
 
 <!-- Main content -->
-<section class="content">
+<section class="content" id="content">
 	<!-- Your Page Content Here -->
 	<div class="row">
 		<div class="col-xs-12" style="height: 800px">
@@ -45,23 +45,24 @@
 	</div>
 </section>
 <script type="text/javascript">
-
+var table
 	$(function() {
-		$("#example1")
+		table=$("#example1")
 				.DataTable(
 						{
-							"fnInitComplete":function(){
+							"drawCallback": function( settings ) {
 								index.bindLayer()
-							},
+						    },
 							"lengthChange" : false,
 							"info" : true,
+							 "cache": false,
 							"autoWidth" : false,
 							"processing" : true,
 							"ordering" : false,
 							"serverSide" : true,
 							"ajax" : {
 								"url" : "admin/role/getAll",
-								"type" : "POST"
+								"type" : "get"
 							},
 							"columns" : [ {
 								"data" : null
@@ -101,11 +102,12 @@
 											'<a  class="label label-info layer1" layer-url="admin/role/auth/'+data.id+'" layer-title="授权" href = "javascript:void(0)" >授权</a>' +
 											</shiro:hasPermission>""
 											o1+=<shiro:hasPermission name="editRole">
-											'<a  class="label label-primary "  href = "javascript:void(0)" >编辑</a>' +
+											'<a  class="label label-primary layer1" layer-url="admin/role/edit/'+data.id+'" layer-title="编辑"  href = "javascript:void(0)" >编辑</a>' +
 											</shiro:hasPermission>""
 											o1+=<shiro:hasPermission name="deleteRole">
-											'<a  class="label label-success"  href = "javascript:void(0)" >删除</a>'+
+											'<a  class="label label-success layer1" layer-url="admin/role/delete/'+data.id+'" layer-title="删除"    href = "javascript:void(0)" >删除</a>'+
 											</shiro:hasPermission>""
+											console.log(o1)
 											return o1;
 										},
 										"targets" : 5
@@ -117,6 +119,21 @@
 		
 
 	})
+	
+	function reload(msg){
+	//当调用table.draw(false)只是实现了表格的局部刷新，只能采取list页面刷新的方式进行刷新
+	
+	$("#content").load("admin/role/list",function(){
+		$(".header1").each(function(){
+			if($(this).html()==123){
+				$(this).parent().parent().remove()
+			}
+		})
+	  })
+	if(msg){
+		layer.msg(msg)
+	}
+}
 </script>
 
 <!-- /.content -->

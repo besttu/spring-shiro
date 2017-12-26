@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.shiro.util.ShiroUtil;
+
 public class GlobalInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -14,6 +16,6 @@ public class GlobalInterceptor extends HandlerInterceptorAdapter {
 		String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path
 				+ "/";
 		request.setAttribute("path", basePath);
-		return super.preHandle(request, response, handler);
+		return true;
 	}
 }

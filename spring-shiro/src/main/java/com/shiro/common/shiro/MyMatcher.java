@@ -8,6 +8,8 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 
 /**
  * 限制用户登录次数
@@ -15,9 +17,18 @@ import org.apache.shiro.cache.CacheManager;
  * @author admin
  *
  */
-public class MyMatcher extends HashedCredentialsMatcher {
+public class MyMatcher extends HashedCredentialsMatcher implements InitializingBean {
 
 	private Cache<String, AtomicInteger> passwordRetryCache; // 创建缓存的对象
+	private PasswordHash passwordHash;
+
+	public PasswordHash getPasswordHash() {
+		return passwordHash;
+	}
+
+	public void setPasswordHash(PasswordHash passwordHash) {
+		this.passwordHash = passwordHash;
+	}
 
 	public MyMatcher(CacheManager cacheManager) {
 		// 赋予缓存对象，此处获取的是我们在ehcache.xml文件中配置,注意getCache("")获取的是xml中的name
@@ -46,6 +57,14 @@ public class MyMatcher extends HashedCredentialsMatcher {
 		}
 
 		return matches;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		// TODO Auto-generated method stub
+		Assert.notNull(passwordHash, "you must set passwordHash!");
+		super.setHashAlgorithmName(passwordHash.getAlgorithmName());
+		super.setHashIterations(passwordHash.getHashIterations());
 	}
 
 }

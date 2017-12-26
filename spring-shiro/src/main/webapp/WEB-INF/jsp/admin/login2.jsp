@@ -29,7 +29,7 @@
 </style>
 </head>
 <body class="hold-transition login-page">
-	<h3>${path }</h3>
+	<h3>${url }</h3>
 	<div class="login-box">
 		<div class="login-logo"></div>
 		<!-- /.login-logo -->
@@ -95,5 +95,8 @@
 nice-validator-1.0.8 -->
 	<script
 		src="static/plugins/nice-validator-1.0.8/jquery.validator.js?local=zh-CN"></script>
+		<script type="text/javascript">
+			
+		</script>
 </body>
 </html>

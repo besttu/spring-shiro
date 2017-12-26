@@ -11,19 +11,14 @@
 		<div class="box-body">
 
 			<div class="form-group">
-				<label for="username">用户名</label> <input type="text" id="username"
+				<label for="username">角色名</label> <input type="text" id="username"
 					name="username" class="form-control" value="${u.username }"
-					placeholder="请输入用户名长度大于等于2" lay-verify="title">
+					placeholder="请输入用户名长度大于等于5" lay-verify="title">
 			</div>
 			<div class="form-group">
-				<label for="password">密码</label> <input type="text" id="password"
+				<label for="password">描述</label> <input type="text" id="password"
 					name="password" value="" class="form-control" p
 					laceholder="不填写则为默认密码">
-			</div>
-			<div class="form-group">
-				<label for="username">确认密码</label> <input type="text" name="null"
-					value="" class="form-control" laceholder="不填写则为默认密码"
-					lay-verify="validateP">
 			</div>
 			<div class="form-group">
 				<div class="">
@@ -33,28 +28,10 @@
 						value="-1" title="未启用">
 				</div>
 			</div>
-
-
-			<div class="form-group">
-				<select name="deptid">
-					<option value="">请选择部门</option>
-					<c:forEach var="d" items="${deptList}">
-						<option ${(d.id==u.deptid)?'selected':'' } checked
-							value="${d.id }">${d.deptname }</option>
-					</c:forEach>
-				</select>
-			</div>
 		</div>
 		<div class="form-group">
 			<textarea name="userdesc" placeholder="请输入内容" class="layui-textarea">${u.userdesc }</textarea>
 		</div>
-		<div class="form-group">
-			<c:forEach items="${roles }" var="r">
-				<input type="checkbox" name="roleIds" class="role1" name="role"
-					value=${r.id } title="${r.rolename }" />
-			</c:forEach>
-		</div>
-
 		<div class="form-group">
 			<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
 			<a class="btn btn-default"
@@ -87,8 +64,8 @@
 	var form = layui.form
 	form.verify({
 		title : function(value) {
-			if (value.length < 2) {
-				return '标题至少得2个字符';
+			if (value.length < 5) {
+				return '标题至少得5个字符';
 			}
 		},
 		pass : [ /(.+){6,12}$/, '密码必须6到12位' ],
@@ -104,7 +81,7 @@
 		$.post("admin/user/doEdit/", $("#form1").serialize(), function(d, s) {
 			if (s = "success") {
 				parent.layer.closeAll()
-				parent.reload("编辑成功0")
+				parent.loade("修改成功哦")
 			} else {
 				layer.msg("修改失败")
 			}

@@ -23,7 +23,6 @@
 				<!-- sidebar menu: : style can be found in sidebar.less -->
 				<ul class="sidebar-menu" data-widget="tree">
 					<li class="header" id="header1">MAIN NAVIGATION</li>
-
 					<li><a href="https://adminlte.io/docs"><i
 							class="fa fa-book"></i> <span>Documentation</span></a></li>
 					<li class="header">LABELS</li>

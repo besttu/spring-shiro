@@ -8,7 +8,7 @@ import com.shiro.pojo.TreeMenu;
 
 public interface MenuService {
 
-	List<TreeMenu> getRootMenu();
+	public List<TreeMenu> getRootMenu();
 
 	public List<TreeAll> getTreeMenu();
 

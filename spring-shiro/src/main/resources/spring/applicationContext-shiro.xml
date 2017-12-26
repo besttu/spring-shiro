@@ -13,23 +13,24 @@
 		<property name="sessionMode" value="native" />
 		<property name="realm" ref="myRealm" />
 	</bean>
-	<bean class="com.shiro.common.shiro.MyMatcher">
+	<bean id="myMatcher" class="com.shiro.common.shiro.MyMatcher">
 		<constructor-arg ref="shiroEacheManager"></constructor-arg>
+		<property name="passwordHash" ref="passwordHash" />
 	</bean>
 
 	<bean id="shiroEacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
 		<property name="cacheManagerConfigFile" value="classpath:ehcache/shiro-ehcache.xml" />
 	</bean>
+	<!-- shiro密码加密配置 -->
+	<bean id="passwordHash" class="com.shiro.common.shiro.PasswordHash">
+		<!-- 密码加密 1次md5,增强密码可修改此处 -->
+		<property name="algorithmName" value="md5" />
+		<property name="hashIterations" value="1024" />
+	</bean>
 
 
 	<bean id="myRealm" class="com.shiro.common.shiro.MyRealm">
-		<property name="credentialsMatcher">
-			<bean class="com.shiro.common.shiro.MyMatcher">
-				<constructor-arg ref="shiroEacheManager" />
-				<property name="hashAlgorithmName" value="MD5"></property>
-				<property name="hashIterations" value="1024"></property>
-			</bean>
-		</property>
+		<property name="credentialsMatcher" ref="myMatcher" />
 	</bean>
 
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />

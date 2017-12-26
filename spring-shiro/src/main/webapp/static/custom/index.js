@@ -3,6 +3,19 @@ $(function() {
 })
 
 var index = {
+	
+data: {"clickme":""},
+	refresh:function(){
+		 $('.treeview').remove(); 
+		 var url= index.data.clickme.attr("url")
+		 this.getAllTree(function(){
+		var self=	 $("[url='"+url+"']").css({
+				 "color":"white"
+			 })
+			self.parent().parent().parent().addClass("active")
+			index.bindMenu()
+		 })
+	},
 	init : function() {
 		f = this.bindMenu;
 		// 获取用户的菜单结构
@@ -56,9 +69,11 @@ var index = {
 														+ "class='fa fa-angle-left pull-right'></i></span></a>"
 														+ childrenText + "</li>")
 											})
+											
 							$("#header1").after(leftText)
-							callback()
-
+							if(callback){
+								callback()
+							}
 						})
 	},
 	getUser : function() {
@@ -67,7 +82,6 @@ var index = {
 				$(this).text(data.username)
 			})
 			$(".u_img").each(function(d) {
-				// alert(data.userimg)
 				$(this).attr("src", data.userimg)
 			})
 
@@ -90,10 +104,10 @@ var index = {
 								var p1 = ($(this).parent().parent().parent()
 										.find("span").html())
 								var p2 = ($(this).text())
+								index.data.clickme = self
 								$("#content1").load(url, function() {
 									index.initFrameValue(p1, p2)
 								})
-
 								// console.log("p1:" + p1 + "p2:" + p2)
 
 							})
@@ -119,10 +133,27 @@ var index = {
 			var title = self.attr("layer-title")
 			if(url){
 				self.click(function(){
+					if(title=="删除"){
+						layer.confirm('确认要删除？', {
+							  btn: ['确认','取消'] // 按钮
+							}, function(){
+								$.get(url,function(data,status){
+									if(status=="success"){
+										reload("删除成功");
+									}else{
+										layer.msg('删除失败', {icon: 1});
+									}
+									 
+								})
+							 
+							}, function(){
+							  
+							});
+						return;
+					}
 					index.editLayer(url,title)
 				})
 			}
 		})
 	}
-
 }
