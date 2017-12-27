@@ -40,7 +40,7 @@ public class MenuServiceImpl implements MenuService {
 	/**
 	 * 菜单栏缓存
 	 */
-	@Cacheable(value = "menuCache")
+	// @Cacheable(value = "menuCache", key = "")
 	public List<TreeMenu> getRootMenu() {
 		List<SysMenu> allTree = this.getAllTree();
 		List<TreeMenu> trees = new ArrayList<TreeMenu>();

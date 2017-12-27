@@ -16,13 +16,16 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import com.google.code.kaptcha.servlet.KaptchaExtend;
 import com.shiro.anno.Log;
 import com.shiro.controller.BaseController;
 import com.shiro.entity.SysUser;
+import com.shiro.util.ServerResponse;
 
 @Controller
 @RequestMapping("/admin")
@@ -46,32 +49,30 @@ public class LoginController extends BaseController {
 	 * @return
 	 */
 	@Log("登陆验证")
-	@RequestMapping("/doLogin")
-	public String doLogin(SysUser u, Model model) {
+	@PostMapping("/doLogin")
+	@ResponseBody
+	public ServerResponse<Object> doLogin(SysUser u) {
 		Subject currentUser = SecurityUtils.getSubject();
 		if (!currentUser.isAuthenticated()) {
 			UsernamePasswordToken token = new UsernamePasswordToken(u.getUsername(), u.getPassword());
 			token.setRememberMe(true);
 			try {
+				System.out.println(u.toString());
 				currentUser.login(token);
+				return ServerResponse.createBySuccess();
 			} catch (UnknownAccountException uae) {
-				model.addAttribute("error", "未知用户");
-				return redirectTo("admin/login");
+				return ServerResponse.createByErrorMessage("未知用户");
 			} catch (IncorrectCredentialsException ice) {
-				model.addAttribute("error", "密码错误");
-				return redirectTo("admin/login");
+				return ServerResponse.createByErrorMessage("密码错误");
 			} catch (LockedAccountException lae) {
-				model.addAttribute("error", "账号已锁定");
-				return redirectTo("admin/login");
+				return ServerResponse.createByErrorMessage("账号已锁定");
 			} catch (ExcessiveAttemptsException ae) {
-				model.addAttribute("error", "请10分钟后再重试");
-				return redirectTo("admin/login");
+				return ServerResponse.createByErrorMessage("请10分钟后再重试");
 			} catch (Exception e) {
-				model.addAttribute("error", "其他错误");
-				return redirectTo("admin/login");
+				return ServerResponse.createByErrorMessage("未知用户");
 			}
 		}
-		return redirectTo("/admin/");
+		return ServerResponse.createBySuccess("faild", u);
 
 	}
 

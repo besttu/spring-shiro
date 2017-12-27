@@ -5,27 +5,22 @@
 <jsp:include page="../common/head.jsp" />
 <body>
 	<h3>${u.username }</h3>
-	<form id="form1" role="form" class="layui-form layui-form-pane"
-		method="GET" action="admin/user/doEdit">
-		<input type="hidden" id="userId" name="id" value="${role.id }">
+	<form id="form1" class="layui-form layui-form-pane" method="POST"
+		action="admin/user/doEdit">
 		<div class="box-body">
-
 			<div class="form-group">
 				<label for="username">角色名</label> <input type="text" id="username"
-					name="rolename" class="form-control" value="${role.rolename }"
-					placeholder="请输入角色名长度大于等于3" lay-verify="title">
+					name="rolename" class="form-control" placeholder="请输入角色名长度大于等于3"
+					lay-verify="title">
 			</div>
 			<div class="form-group">
 				<label for="password">描述</label> <input type="text" id="password"
-					name="roledesc" value="${role.roledesc }" class="form-control" p
-					laceholder="">
+					name="roledesc" class="form-control" p laceholder="">
 			</div>
 			<div class="form-group">
 				<div class="">
-					<input type="radio" name="rolestate" value="1"
-						${(role.rolestate==1)?'checked':'' } title="启用"> <input
-						${(role.rolestate!=1)?'checked':'' } type="radio" name="rolestate"
-						value="-1" title="未启用">
+					<input type="radio" name="rolestate" value="1" checked title="启用">
+					<input type="radio" name="rolestate" value="-1" title="未启用">
 				</div>
 			</div>
 		</div>
@@ -38,22 +33,9 @@
 		</div>
 		<!-- /.box-body -->
 	</form>
-	<c:forEach var="r" items="${roleIds }">
-		<input type="hidden" class="role2" value="${r}" />
-	</c:forEach>
 </body>
 <script
 	src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
-<script type="text/javascript">
-	$(".role2").each(function() {
-		var self = $(this)
-		$(".role1").each(function() {
-			if (self.val() == $(this).val()) {
-				$(this).attr("checked", "checked")
-			}
-		})
-	})
-</script>
 <script src="static/plugins/layui/layui.all.js">
 	
 </script>
@@ -61,15 +43,15 @@
 	var form = layui.form
 	form.verify({
 		title : function(value) {
-			if (value.length < 5) {
+			if (value.length < 3) {
 				return '角色名至少得3个字符';
 			}
 		}
 	});
 	//监听提交  
 	form.on('submit(demo1)', function(data) {
-		var index = parent.layer.getFrameIndex(window.name);
-		$.post("admin/role/doEdit", $("#form1").serialize(), function(d, s) {
+		console.log($("#form1").serialize())
+		$.post("admin/role/doAdd", $("#form1").serialize(), function(d, s) {
 			if (s = "success") {
 				parent.layer.closeAll()
 				parent.load("修改成功哦")

@@ -4,7 +4,8 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <jsp:include page="../common/head.jsp" />
 <body>
-	<form id="form1" method="post" class="layui-form layui-form-pane">
+	<form id="form1" method="return false"
+		class="layui-form layui-form-pane">
 		<table class="table table-hover">
 			<input type="hidden" value="${(roleId)}" name="roleId" />
 			<c:forEach items="${treeMenu }" var="t1">
@@ -30,10 +31,7 @@
 			</c:forEach>
 		</table>
 		<div class="box-footer">
-			<button type="submit" class="layui-btn" lay-submit=""
-				lay-filter="demo1">
-				<i class="fa fa-save"></i> 确认授权
-			</button>
+			<button class="layui-btn" lay-submit="" lay-filter="demo1">确认授权</button>
 			<a class="btn btn-default"
 				href="javascript:parent.layer.closeAll('iframe');"><i
 				class="fa fa-angle-left"></i> 返回</a>
@@ -51,32 +49,27 @@
 	
 </script>
 <script type="text/javascript">
-	$(".menu2").each(
-			function() {
-				var self = $(this)
-				$(".menu1").each(function() {
-					if (self.val() == $(this).val()) {
-						$(this).attr("checked", "checked")
-						return;
-					}
-				})
-				var form = layui.form
-				//监听提交  
-				form.on('submit(demo1)', function(data) {
-					var index = parent.layer.getFrameIndex(window.name);
-					$.post("admin/role/doAuth/", $("#form1").serialize(),
-							function(d, s) {
-								if (s = "success") {
-									parent.layer.closeAll()
-									parent.reload("修改成功01");
-									//	parent.editSuccess()
-								} else {
-									layer.msg("修改失败")
-								}
-							})
-					return false;
-				});
-
-			})
+	$(".menu2").each(function() {
+		var self = $(this)
+		$(".menu1").each(function() {
+			if (self.val() == $(this).val()) {
+				$(this).attr("checked", "checked")
+				return;
+			}
+		})
+	})
+	var form = layui.form
+	//监听提交  
+	form.on('submit(demo1)', function(data) {
+		$.post("admin/role/doAuth", $("#form1").serialize(), function(d, s) {
+			if (s = "success") {
+				parent.layer.closeAll()
+				parent.load("修改成功01");
+			} else {
+				layer.msg("修改失败")
+			}
+		})
+		return false;
+	});
 </script>
 </html>

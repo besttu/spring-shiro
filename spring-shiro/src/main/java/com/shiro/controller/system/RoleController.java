@@ -3,6 +3,7 @@ package com.shiro.controller.system;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,7 +74,7 @@ public class RoleController extends BaseController {
 	}
 
 	@RequiresPermissions("authRole")
-	@RequestMapping("doAuth")
+	@PostMapping("doAuth")
 	@ResponseBody
 	public void doAuth(String roleId, HttpServletRequest req, String[] mid) {
 		roleService.addAuth(roleId, mid);
@@ -84,6 +86,29 @@ public class RoleController extends BaseController {
 		SysRole roleById = roleService.getRoleById(id);
 		req.setAttribute("role", roleById);
 		return "admin/role/edit";
+	}
+
+	@RequiresPermissions("editRole")
+	@PostMapping("/doEdit")
+	@ResponseBody
+	public void doEdit(SysRole role) {
+		roleService.editRole(role);
+	}
+
+	@RequiresPermissions("addRole")
+	@GetMapping("/add")
+	public String add(String id, Model model) {
+		SysRole role = roleService.getRole(id);
+		model.addAttribute("role", role);
+		return "admin/role/add";
+	}
+
+	@RequiresPermissions("addRole")
+	@PostMapping("/doAdd")
+	@ResponseBody
+	public void doAdd(SysRole role) {
+		role.setId(UUID.randomUUID().toString());
+		roleService.addRole(role);
 	}
 
 	@RequiresPermissions("deleteRole")

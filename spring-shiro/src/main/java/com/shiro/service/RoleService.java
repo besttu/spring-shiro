@@ -23,4 +23,10 @@ public interface RoleService {
 	public SysRole getRoleById(String id);
 
 	public void deleteById(String id);
+
+	public void editRole(SysRole role);
+
+	public void addRole(SysRole id);
+
+	public SysRole getRole(String id);
 }

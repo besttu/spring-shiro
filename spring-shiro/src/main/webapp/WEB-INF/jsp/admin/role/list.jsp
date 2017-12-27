@@ -18,11 +18,12 @@
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
-					<div class="input-group">
-						<a class="btn btn-primary dialog" id="createUser"
-							href="javascript:;" data-url="admin/user/add" data-width="850"
-							data-height="550"><i class="fa fa-plus"></i> 创建新用户</a>
-					</div>
+					<shiro:hasPermission name="addRole">
+						<div class="input-group">
+							<a class="btn btn-primary layer1" href="javascript:;"
+								layer-url="admin/role/add" layer-url><i class="fa fa-plus"></i> 创建新角色</a>
+						</div>
+					</shiro:hasPermission>
 					<table id="example1" action=""
 						class="table table-bordered table-hover dataTable">
 						<thead>
@@ -107,7 +108,6 @@ var table
 											o1+=<shiro:hasPermission name="deleteRole">
 											'<a  class="label label-success layer1" layer-url="admin/role/delete/'+data.id+'" layer-title="删除"    href = "javascript:void(0)" >删除</a>'+
 											</shiro:hasPermission>""
-											console.log(o1)
 											return o1;
 										},
 										"targets" : 5
@@ -120,9 +120,8 @@ var table
 
 	})
 	
-	function reload(msg){
+	function load(msg){
 	//当调用table.draw(false)只是实现了表格的局部刷新，只能采取list页面刷新的方式进行刷新
-	
 	$("#content").load("admin/role/list",function(){
 		$(".header1").each(function(){
 			if($(this).html()==123){

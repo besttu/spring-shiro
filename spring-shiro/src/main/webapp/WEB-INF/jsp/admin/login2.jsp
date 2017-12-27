@@ -33,21 +33,20 @@
 	<div class="login-box">
 		<div class="login-logo"></div>
 		<!-- /.login-logo -->
-		<h3>${error }</h3>
-		<form action="admin/doLogin"
-			data-validator-option="{theme:'bootstrap', timely:2, theme:'simple_bottom'}"
-			method="get">
+
+		<form id="form1" method="return false">
 			<div class="login-box-body">
 				<p class="login-box-msg">请输入用户名和密码登录</p>
 				<div class="form-group has-feedback mg">
-					<input type="text" class="form-control" name="username"
-						placeholder="用户名" data-rule="用户名:required;username;"> <span
+					<input type="text" class="form-control" id="username"
+						name="username" placeholder="用户名"
+						data-rule="用户名:required;username;"> <span
 						class="glyphicon glyphicon-user form-control-feedback"></span>
 				</div>
 				<div class="form-group has-feedback mg">
-					<input type="password" class="form-control" name="password"
-						placeholder="密码" data-rule="密码:required;password;"> <span
-						class="glyphicon glyphicon-lock form-control-feedback"></span>
+					<input type="password" class="form-control" id="password"
+						name="password" placeholder="密码" data-rule="密码:required;password;">
+					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 				</div>
 				<div class="form-group has-feedback">
 					<div class="row">
@@ -74,9 +73,10 @@
 					</div>
 					<!-- /.col -->
 					<div class="col-xs-4">
-						<button type="submit" class="btn btn-primary btn-block btn-flat">
-							<i class="fa fa-sign-in"></i> 登录
-						</button>
+						<span onclick="submitform()"
+							class="btn btn-primary btn-block btn-flat"> <i
+							class="fa fa-sign-in">登录</i>
+						</span>
 					</div>
 					<!-- /.col -->
 				</div>
@@ -95,8 +95,14 @@
 nice-validator-1.0.8 -->
 	<script
 		src="static/plugins/nice-validator-1.0.8/jquery.validator.js?local=zh-CN"></script>
-		<script type="text/javascript">
-			
-		</script>
+	<script type="text/javascript">
+		function submitform() {
+			$.post("admin/doLogin", $("#form1").serialize(), function(d) {
+				if (d.status == 0) {
+					alert("successed")
+				}
+			})
+		}
+	</script>
 </body>
 </html>

@@ -21,7 +21,6 @@ import com.shiro.entity.SysRoleMenu;
 import com.shiro.entity.SysRoleMenuExample;
 import com.shiro.pojo.DataTable;
 import com.shiro.service.RoleService;
-import com.shiro.util.ShiroUtil;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -71,11 +70,11 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	@CacheEvict(value = "menuCache", allEntries = true)
+	// @CacheEvict(value = "menuCache", allEntries = true)
 	public void addAuth(String roleId, String[] mid) {
 		// TODO Auto-generated method stub
 		// 授权之前需要清除用户缓存
-		cahceManager.getCache("menuCache").clear();
+		// cahceManager.getCache("menuCache").clear();
 		realm.clearCached();
 		SysRoleMenuExample example = new SysRoleMenuExample();
 		com.shiro.entity.SysRoleMenuExample.Criteria c = example.createCriteria();
@@ -103,6 +102,24 @@ public class RoleServiceImpl implements RoleService {
 	public void deleteById(String id) {
 		// TODO Auto-generated method stub
 		roleMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public void editRole(SysRole role) {
+		// TODO Auto-generated method stub
+		roleMapper.updateByPrimaryKey(role);
+	}
+
+	@Override
+	public void addRole(SysRole role) {
+		// TODO Auto-generated method stub
+		roleMapper.insert(role);
+	}
+
+	@Override
+	public SysRole getRole(String id) {
+		// TODO Auto-generated method stub
+		return roleMapper.selectByPrimaryKey(id);
 	}
 
 }

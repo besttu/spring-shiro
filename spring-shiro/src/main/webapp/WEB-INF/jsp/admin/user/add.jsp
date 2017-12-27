@@ -46,8 +46,8 @@
 		</div>
 		<div class="form-group">
 			<c:forEach items="${roles }" var="r">
-				<input type="checkbox" name="roleIds" lay-verify="role1"  class="role1" name="role"
-					value=${r.id } title="${r.rolename }" />
+				<input type="checkbox" name="roleIds" lay-verify="role1"
+					class="role1" name="role" value=${r.id } title="${r.rolename }" />
 			</c:forEach>
 		</div>
 
@@ -82,23 +82,19 @@
 				return '密码不一致'
 			}
 		},
-	
+
 	});
 
 	//监听提交  
 	form.on('submit(demo1)', function(data) {
-		var index = parent.layer.getFrameIndex(window.name);
 		$.post("admin/user/doAdd/", $("#form1").serialize(), function(d, s) {
 			console.log(d)
-			console.log(s)
 			if (s = "success") {
 				parent.layer.closeAll()
-				parent.editSuccess()
+				parent.reload("添加成功0")
 			} else {
 				layer.msg("修改失败")
 			}
-		}, function() {
-			alert("s")
 		})
 		return false;
 	});
