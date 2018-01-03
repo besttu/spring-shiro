@@ -1,93 +1,99 @@
 package com.shiro.entity;
 
 public class SysMenu {
-    private String id;
+	private String id;
 
-    private String menuname;
+	private String menuname;
 
-    private String pid;
+	private String pid;
 
-    private String url;
+	@Override
+	public String toString() {
+		return "SysMenu [id=" + id + ", menuname=" + menuname + ", pid=" + pid + ", url=" + url + ", icon=" + icon
+				+ ", sort=" + sort + ", deep=" + deep + ", code=" + code + ", resource=" + resource + "]";
+	}
 
-    private String icon;
+	private String url;
 
-    private Integer sort;
+	private String icon;
 
-    private Integer deep;
+	private Integer sort;
 
-    private String code;
+	private Integer deep;
 
-    private String resource;
+	private String code;
 
-    public String getId() {
-        return id;
-    }
+	private String resource;
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getMenuname() {
-        return menuname;
-    }
+	public void setId(String id) {
+		this.id = id == null ? null : id.trim();
+	}
 
-    public void setMenuname(String menuname) {
-        this.menuname = menuname == null ? null : menuname.trim();
-    }
+	public String getMenuname() {
+		return menuname;
+	}
 
-    public String getPid() {
-        return pid;
-    }
+	public void setMenuname(String menuname) {
+		this.menuname = menuname == null ? null : menuname.trim();
+	}
 
-    public void setPid(String pid) {
-        this.pid = pid == null ? null : pid.trim();
-    }
+	public String getPid() {
+		return pid;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public void setPid(String pid) {
+		this.pid = pid == null ? null : pid.trim();
+	}
 
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public String getIcon() {
-        return icon;
-    }
+	public void setUrl(String url) {
+		this.url = url == null ? null : url.trim();
+	}
 
-    public void setIcon(String icon) {
-        this.icon = icon == null ? null : icon.trim();
-    }
+	public String getIcon() {
+		return icon;
+	}
 
-    public Integer getSort() {
-        return sort;
-    }
+	public void setIcon(String icon) {
+		this.icon = icon == null ? null : icon.trim();
+	}
 
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
+	public Integer getSort() {
+		return sort;
+	}
 
-    public Integer getDeep() {
-        return deep;
-    }
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
 
-    public void setDeep(Integer deep) {
-        this.deep = deep;
-    }
+	public Integer getDeep() {
+		return deep;
+	}
 
-    public String getCode() {
-        return code;
-    }
+	public void setDeep(Integer deep) {
+		this.deep = deep;
+	}
 
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
-    }
+	public String getCode() {
+		return code;
+	}
 
-    public String getResource() {
-        return resource;
-    }
+	public void setCode(String code) {
+		this.code = code == null ? null : code.trim();
+	}
 
-    public void setResource(String resource) {
-        this.resource = resource == null ? null : resource.trim();
-    }
+	public String getResource() {
+		return resource;
+	}
+
+	public void setResource(String resource) {
+		this.resource = resource == null ? null : resource.trim();
+	}
 }

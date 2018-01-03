@@ -4,29 +4,40 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <jsp:include page="../common/head.jsp" />
 <body>
-	<h3>${u.username }</h3>
+
 	<form id="form1" role="form" class="layui-form layui-form-pane"
-		method="GET" action="admin/user/doEdit">
-		<input type="hidden" id="userId" name="id" value="${role.id }">
+		method="GET">
+		<input type="hidden" id="id" name="id" value="${menu.id }">
 		<div class="box-body">
+			<div class="form-group">
+				<select name="pid">
+					<option value="">请选择部门</option>
+					<c:forEach var="m" items="${menus}">
+						<option value="${m.id }" ${m.id==menu.pid?'selected':'' }>${m.menuname }</option>
+					</c:forEach>
+				</select>
+			</div>
 
 			<div class="form-group">
-				<label for="username">角色名</label> <input type="text" id="username"
-					name="rolename" class="form-control" value="${role.rolename }"
-					placeholder="请输入角色名长度大于等于3" lay-verify="title">
+				<label for="password">编码</label> <input value=${menu.code }
+					type="text" id="code" name="code" lay-verify="required|number"
+					class="form-control" placeholder="">
 			</div>
 			<div class="form-group">
-				<label for="password">描述</label> <input type="text" id="password"
-					name="roledesc" value="${role.roledesc }" class="form-control" p
-					laceholder="">
+				<label for="username">目录名称</label> <input type="text" id="username"
+					name="menuname" class="form-control" value="${menu.menuname }"
+					placeholder="请输入用户名长度大于等于2" lay-verify=required>
+			</div>
+
+			<div class="form-group">
+				<label for="username">排序</label> <input type="text" name="sort"
+					value="${menu.sort }" class="form-control" laceholder=""
+					lay-verify="validateP">
 			</div>
 			<div class="form-group">
-				<div class="">
-					<input type="radio" name="rolestate" value="1"
-						${(role.rolestate==1)?'checked':'' } title="启用"> <input
-						${(role.rolestate!=1)?'checked':'' } type="radio" name="rolestate"
-						value="-1" title="未启用">
-				</div>
+				<label for="username">图标</label> <input type="text" name="icon"
+					value="${menu.icon }" class="form-control" laceholder=""
+					lay-verify="required">
 			</div>
 		</div>
 		<div class="form-group">
@@ -35,12 +46,15 @@
 				href="javascript:parent.layer.closeAll('iframe');"><i
 				class="fa fa-angle-left"></i> 返回</a>
 		</div>
+		<c:forEach items="${menus }" var="m">
+			<input type="hidden" class="menu1" value="${m.id }"
+				data-name="${m.menuname }" />
+		</c:forEach>
+
 		</div>
 		<!-- /.box-body -->
+
 	</form>
-	<c:forEach var="r" items="${roleIds }">
-		<input type="hidden" class="role2" value="${r}" />
-	</c:forEach>
 </body>
 <script
 	src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
@@ -59,20 +73,12 @@
 </script>
 <script type="text/javascript">
 	var form = layui.form
-	form.verify({
-		title : function(value) {
-			if (value.length < 5) {
-				return '角色名至少得3个字符';
-			}
-		}
-	});
 	//监听提交  
 	form.on('submit(demo1)', function(data) {
-		var index = parent.layer.getFrameIndex(window.name);
-		$.post("admin/role/doEdit", $("#form1").serialize(), function(d, s) {
+		$.post("admin/menu/doEdit/", $("#form1").serialize(), function(d, s) {
 			if (s = "success") {
 				parent.layer.closeAll()
-				parent.reload("修改成功哦")
+				parent.reload("编辑成功0")
 			} else {
 				layer.msg("修改失败")
 			}

@@ -54,7 +54,7 @@
 		$.post("admin/role/doAdd", $("#form1").serialize(), function(d, s) {
 			if (s = "success") {
 				parent.layer.closeAll()
-				parent.load("修改成功哦")
+				parent.reload("修改成功哦")
 			} else {
 				layer.msg("修改失败")
 			}

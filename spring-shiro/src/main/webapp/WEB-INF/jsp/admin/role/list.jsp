@@ -14,14 +14,15 @@
 		<div class="col-xs-12" style="height: 800px">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Data Table With Full Features</h3>
+					<h3 class="box-title">角色管理</h3>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
 					<shiro:hasPermission name="addRole">
 						<div class="input-group">
 							<a class="btn btn-primary layer1" href="javascript:;"
-								layer-url="admin/role/add" layer-url><i class="fa fa-plus"></i> 创建新角色</a>
+								layer-url="admin/role/add" layer-url><i class="fa fa-plus"></i>
+								创建新角色</a>
 						</div>
 					</shiro:hasPermission>
 					<table id="example1" action=""
@@ -120,8 +121,8 @@ var table
 
 	})
 	
-	function load(msg){
-	//当调用table.draw(false)只是实现了表格的局部刷新，只能采取list页面刷新的方式进行刷新
+	function reload(msg){
+	//当调用table.draw(false)只是实现了表格的局部刷新(局部刷新并不会更新list页面中的 o1变量，因此只能采用重新加载页面的方式)，只能采取list页面刷新的方式进行刷新
 	$("#content").load("admin/role/list",function(){
 		$(".header1").each(function(){
 			if($(this).html()==123){

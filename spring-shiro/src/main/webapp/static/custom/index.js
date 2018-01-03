@@ -6,7 +6,8 @@ var index = {
 	
 data: {"clickme":""},
 	refresh:function(){
-		 $('.treeview').remove(); 
+		 if( index.data.clickme){
+			 $('.treeview').remove(); 
 		 var url= index.data.clickme.attr("url")
 		 this.getAllTree(function(){
 		var self=	 $("[url='"+url+"']").css({
@@ -14,7 +15,7 @@ data: {"clickme":""},
 			 })
 			self.parent().parent().parent().addClass("active")
 			index.bindMenu()
-		 })
+		 })}
 	},
 	init : function() {
 		f = this.bindMenu;
@@ -129,6 +130,7 @@ data: {"clickme":""},
 	},bindLayer:function(){// 绑定所有.layer1元素
 		$(".layer1").each(function(){
 			var self=$(this);
+			self.unbind()
 			var url=self.attr("layer-url")
 			var title = self.attr("layer-title")
 			if(url){
