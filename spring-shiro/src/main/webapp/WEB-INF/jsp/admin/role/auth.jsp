@@ -62,9 +62,9 @@
 	//监听提交  
 	form.on('submit(demo1)', function(data) {
 		$.post("admin/role/doAuth", $("#form1").serialize(), function(d, s) {
-			if (s = "success") {
+			if (d.status == 0) {
 				parent.layer.closeAll()
-				parent.load("修改成功01");
+				parent.reload("授权成功");
 			} else {
 				layer.msg("修改失败")
 			}

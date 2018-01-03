@@ -4,7 +4,6 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <jsp:include page="../common/head.jsp" />
 <body>
-	<h3>${u.username }</h3>
 	<form id="form1" role="form" class="layui-form layui-form-pane"
 		method="GET" action="admin/user/doEdit">
 		<input type="hidden" id="userId" name="id" value="${u.id }">
@@ -102,9 +101,10 @@
 	form.on('submit(demo1)', function(data) {
 		var index = parent.layer.getFrameIndex(window.name);
 		$.post("admin/user/doEdit/", $("#form1").serialize(), function(d, s) {
-			if (s = "success") {
+			console.log(d)
+			if (d.status == 0) {
 				parent.layer.closeAll()
-				parent.reload("编辑成功0")
+				parent.reload("编辑成功")
 			} else {
 				layer.msg("修改失败")
 			}

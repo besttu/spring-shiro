@@ -4,7 +4,6 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <jsp:include page="../common/head.jsp" />
 <body>
-	<h3>${u.username }</h3>
 	<form id="form1" class="layui-form layui-form-pane" method="POST"
 		action="admin/user/doEdit">
 		<div class="box-body">
@@ -52,9 +51,10 @@
 	form.on('submit(demo1)', function(data) {
 		console.log($("#form1").serialize())
 		$.post("admin/role/doAdd", $("#form1").serialize(), function(d, s) {
-			if (s = "success") {
+			
+			if (d.status == 0) {
 				parent.layer.closeAll()
-				parent.reload("修改成功哦")
+				parent.reload("添加成功")
 			} else {
 				layer.msg("修改失败")
 			}

@@ -63,9 +63,9 @@
 	//监听提交  
 	form.on('submit(demo1)', function(data) {
 		$.post("admin/menu/doAdd", $("#form1").serialize(), function(d, s) {
-			if (s = "success") {
+			if (d.status==0) {
 				parent.layer.closeAll()
-				parent.reload("编辑成功0")
+				parent.reload("编辑成功")
 			} else {
 				layer.msg("修改失败")
 			}

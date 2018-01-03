@@ -3,63 +3,69 @@ package com.shiro.entity;
 import java.util.Date;
 
 public class SysLog {
-    private String id;
+	private String id;
 
-    private String username;
+	private String username;
 
-    private String title;
+	private String title;
 
-    private String url;
+	private String url;
 
-    private Date createtime;
+	private Date createtime;
 
-    private String params;
+	private String params;
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	public void setId(String id) {
+		this.id = id == null ? null : id.trim();
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
-    }
+	public void setUsername(String username) {
+		this.username = username == null ? null : username.trim();
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
+	public void setTitle(String title) {
+		this.title = title == null ? null : title.trim();
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
-    }
+	public void setUrl(String url) {
+		this.url = url == null ? null : url.trim();
+	}
 
-    public Date getCreatetime() {
-        return createtime;
-    }
+	public Date getCreatetime() {
+		return createtime;
+	}
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
+	}
 
-    public String getParams() {
-        return params;
-    }
+	public String getParams() {
+		return params;
+	}
 
-    public void setParams(String params) {
-        this.params = params == null ? null : params.trim();
-    }
+	@Override
+	public String toString() {
+		return "SysLog [id=" + id + ", username=" + username + ", title=" + title + ", url=" + url + ", createtime="
+				+ createtime + ", params=" + params + "]";
+	}
+
+	public void setParams(String params) {
+		this.params = params == null ? null : params.trim();
+	}
 }

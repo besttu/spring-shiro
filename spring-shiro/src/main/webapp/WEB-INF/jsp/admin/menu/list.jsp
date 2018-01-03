@@ -55,9 +55,9 @@
 			"drawCallback" : function(settings) {
 				index.bindLayer()
 			},
+			"lengthChange" : false,
 			"info" : true,
 			"cache" : false,
-			"autoWidth" : false,
 			"processing" : true,
 			"ordering" : false,
 			"serverSide" : true,

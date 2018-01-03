@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.shiro.anno.Log;
 import com.shiro.common.shiro.PasswordHash;
 import com.shiro.controller.BaseController;
 import com.shiro.entity.SysUser;
@@ -18,6 +19,8 @@ import com.shiro.service.DeptService;
 import com.shiro.service.RoleService;
 import com.shiro.service.UserRoleService;
 import com.shiro.service.UserService;
+import com.shiro.util.ResponseCode;
+import com.shiro.util.ServerResponse;
 import com.shiro.util.ShiroUtil;
 
 @Controller
@@ -54,11 +57,13 @@ public class UserController extends BaseController {
 		return "admin/user/list";
 	}
 
+	@Log("删除用户")
 	@RequiresPermissions("deleteUser")
 	@RequestMapping("del/{id}")
 	@ResponseBody
-	public void del(@PathVariable String id) {
+	public ServerResponse<String> del(@PathVariable String id) {
 		userService.deleteUser(id);
+		return ServerResponse.createBySuccess();
 	}
 
 	@RequiresPermissions("editUser")
@@ -74,11 +79,13 @@ public class UserController extends BaseController {
 		return "admin/user/edit";
 	}
 
+	@Log("编辑用户")
 	@RequiresPermissions("editUser")
 	@RequestMapping("doEdit")
 	@ResponseBody
-	public void doEdit(String[] roleIds, SysUser user) {
+	public ServerResponse<String> doEdit(String[] roleIds, SysUser user) {
 		userService.editUser(user, roleIds);
+		return ServerResponse.createBySuccess();
 	}
 
 	@RequiresPermissions("addUser")
@@ -89,11 +96,13 @@ public class UserController extends BaseController {
 		return "admin/user/add";
 	}
 
+	@Log("添加用户")
 	@RequiresPermissions("addUser")
 	@RequestMapping("doAdd")
 	@ResponseBody
-	public void doAdd(String[] roleIds, SysUser user) {
+	public ServerResponse<String> doAdd(String[] roleIds, SysUser user) {
 		userService.saveUser(user, roleIds);
+		return ServerResponse.createBySuccess();
 	}
 
 }

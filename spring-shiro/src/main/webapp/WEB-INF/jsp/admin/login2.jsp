@@ -61,7 +61,7 @@
 							<div class="form-group has-feedback">
 								<img alt="如果看不清楚，请单击图片刷新！" class="pointer img"
 									src="admin/captcha"> <a
-									href="javascript:$('.img').attr('src','admin/login/captcha');">点击刷新</a>
+									href="javascript:$('.img').attr('src','admin/captcha');">点击刷新</a>
 							</div>
 						</div>
 					</div>

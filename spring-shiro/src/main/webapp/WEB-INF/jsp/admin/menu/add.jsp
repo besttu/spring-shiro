@@ -157,11 +157,10 @@
 	 }); */
 	//自定义验证规则
 
-
 	//监听提交  
 	form.on('submit(demo1)', function(data) {
 		$.post("admin/menu/doAdd", $("#form1").serialize(), function(d, s) {
-			if (s = "success") {
+			if (d.status == 0) {
 				parent.layer.closeAll()
 				parent.reload("编辑成功0")
 			} else {
@@ -173,7 +172,7 @@
 	//监听提交  
 	form.on('submit(demo2)', function(data) {
 		$.post("admin/menu/doAddMenu", $("#form2").serialize(), function(d, s) {
-			if (s = "success") {
+			if (d.status == 0) {
 				parent.layer.closeAll()
 				parent.reload("编辑成功0")
 			} else {
@@ -185,9 +184,9 @@
 	form.on('submit(demo3)', function(data) {
 		$.post("admin/menu/doAddContent", $("#form3").serialize(), function(d,
 				s) {
-			if (s = "success") {
+			if (d.status == 0) {
 				parent.layer.closeAll()
-				parent.reload("编辑成功0")
+				parent.reload("编辑成功")
 			} else {
 				layer.msg("修改失败")
 			}

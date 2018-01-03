@@ -19,35 +19,35 @@ import com.shiro.service.RoleMenuService;
 import com.shiro.service.RoleService;
 import com.shiro.service.UserService;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring/applicationContext-*.xml" })
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = { "classpath:spring/applicationContext-*.xml" })
 public class TestAdmin {
-
-	@Autowired
-	private RoleService sysRoleService;
-	@Autowired
-	private RoleMenuService sysRoleMenuService;
-	@Autowired
-	private MenuService sysMenuService;
-	@Autowired
-	private UserService sysUserService;
-
-	/**
-	 * 创建一个Admin用户
-	 */
-	@Test
-	public void addAdmin() {
-		// sysMenuService.getAllTree();
-	}
-
-	/**
-	 * 修改Admin的密码位123456
-	 */
-	@Test
-	public void changeAdminPwd() {
-		// MD5,"密码","盐",加密次数
-		String pwd = new SimpleHash("MD5", "123456", "admin", 1024).toString();
-		System.out.println(pwd);
-	}
-
+	//
+	// @Autowired
+	// private RoleService sysRoleService;
+	// @Autowired
+	// private RoleMenuService sysRoleMenuService;
+	// @Autowired
+	// private MenuService sysMenuService;
+	// @Autowired
+	// private UserService sysUserService;
+	//
+	// /**
+	// * 创建一个Admin用户
+	// */
+	// @Test
+	// public void addAdmin() {
+	// // sysMenuService.getAllTree();
+	// }
+	//
+	// /**
+	// * 修改Admin的密码位123456
+	// */
+	// @Test
+	// public void changeAdminPwd() {
+	// // MD5,"密码","盐",加密次数
+	// String pwd = new SimpleHash("MD5", "123456", "admin", 1024).toString();
+	// System.out.println(pwd);
+	// }
+	//
 }

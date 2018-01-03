@@ -16,12 +16,9 @@
 			<ul class="nav navbar-nav">
 				<!-- Messages: style can be found in dropdown.less-->
 				<li class="dropdown messages-menu">
-					<!-- Menu toggle button --> <a href="#" class="dropdown-toggle"
-					data-toggle="dropdown"> <i class="fa fa-envelope-o"></i> <span
-						class="label label-success">4</span>
-				</a>
+					<!-- Menu toggle button -->
 					<ul class="dropdown-menu">
-						<li class="header">You have 4 messages</li>
+					
 						<li>
 							<!-- inner menu: contains the messages -->
 							<ul class="menu">
@@ -45,22 +42,9 @@
 					</ul>
 				</li>
 				<!-- /.messages-menu -->
-
-				<!-- Notifications Menu -->
-				<li class="dropdown notifications-menu">
-					<!-- Menu toggle button --> <a href="#" class="dropdown-toggle"
-					data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <span
-						class="glyphicon glyphicon-refresh"></span>
-				</a>
-				</li>
 				<!-- Tasks Menu -->
 				<li class="dropdown tasks-menu">
-					<!-- Menu Toggle Button --> <a href="#" class="dropdown-toggle"
-					data-toggle="dropdown"> <i class="fa fa-flag-o"></i> <span
-						class="label label-danger">9</span>
-				</a>
 					<ul class="dropdown-menu">
-						<li class="header">You have 9 tasks</li>
 						<li>
 							<!-- Inner menu: contains the tasks -->
 							<ul class="menu">

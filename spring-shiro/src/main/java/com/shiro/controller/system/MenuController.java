@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.shiro.anno.Log;
 import com.shiro.controller.BaseController;
 import com.shiro.entity.SysMenu;
 import com.shiro.pojo.DataTable;
 import com.shiro.service.MenuService;
+import com.shiro.util.ServerResponse;
 
 @Controller
 @RequestMapping("admin/menu/")
@@ -50,12 +52,13 @@ public class MenuController extends BaseController {
 		return "admin/menu/edit";
 	}
 
+	@Log("编辑菜单")
 	@RequiresPermissions("editMenu")
 	@PostMapping("doEdit")
 	@ResponseBody
-	public void doEdit(SysMenu m) {
-		System.out.println("m:" + m.toString());
+	public ServerResponse<String> doEdit(SysMenu m) {
 		menuService.saveMenu(m);
+		return ServerResponse.createBySuccess();
 	}
 
 	@RequiresPermissions("addMenu")
@@ -66,34 +69,40 @@ public class MenuController extends BaseController {
 		return "admin/menu/add";
 	}
 
+	@Log("添加目录菜单")
 	@RequiresPermissions("addMenu")
 	@PostMapping("doAdd")
 	@ResponseBody
-	public void save(SysMenu m) {
+	public ServerResponse<String> save(SysMenu m) {
 		m.setDeep(1);
 		m.setId(UUID.randomUUID().toString());
 		menuService.save(m);
+		return ServerResponse.createBySuccess();
 	}
 
+	@Log("添加菜单")
 	@RequiresPermissions("addMenu")
 	@PostMapping("doAddMenu")
 	@ResponseBody
-	public void saveMenu(SysMenu m) {
+	public ServerResponse<String> saveMenu(SysMenu m) {
 		m.setDeep(2);
 		m.setId(UUID.randomUUID().toString());
 		menuService.save(m);
+		return ServerResponse.createBySuccess();
 	}
 
+	@Log("添加功能菜单")
 	@RequiresPermissions("addMenu")
 	@PostMapping("doAddContent")
 	@ResponseBody
-	public void saveContent(SysMenu m) {
+	public ServerResponse<String> saveContent(SysMenu m) {
 		m.setDeep(3);
-		if (m.getPid() == null||m.getPid().equals("")) {
-				m.setPid("0");
+		if (m.getPid() == null || m.getPid().equals("")) {
+			m.setPid("0");
 		}
 		m.setId(UUID.randomUUID().toString());
 		menuService.save(m);
+		return ServerResponse.createBySuccess();
 	}
 
 	@RequiresPermissions("editMenu")
@@ -118,11 +127,13 @@ public class MenuController extends BaseController {
 		return "admin/menu/editContent";
 	}
 
+	@Log("刪除菜单")
 	@RequiresPermissions("deleteMenu")
 	@GetMapping("del/{id}")
 	@ResponseBody
-	public void delete(@PathVariable String id) {
+	public ServerResponse<String> delete(@PathVariable String id) {
 		menuService.delete(id);
+		return ServerResponse.createBySuccess();
 	}
 
 	@RequiresPermissions("editMenu")

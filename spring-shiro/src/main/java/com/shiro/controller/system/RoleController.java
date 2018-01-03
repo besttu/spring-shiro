@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.shiro.anno.Log;
 import com.shiro.controller.BaseController;
 import com.shiro.entity.SysRole;
 import com.shiro.entity.SysRoleMenu;
@@ -26,6 +28,7 @@ import com.shiro.pojo.DataTable;
 import com.shiro.pojo.TreeAll;
 import com.shiro.service.MenuService;
 import com.shiro.service.RoleService;
+import com.shiro.util.ServerResponse;
 
 @Controller
 @RequestMapping("/admin/role/")
@@ -46,7 +49,7 @@ public class RoleController extends BaseController {
 	public DataTable<SysRole> getAll(int draw, @RequestParam(defaultValue = "0") int start, int length,
 			HttpServletRequest req) {
 		String search = req.getParameter("search[value]");
-		System.out.println(roleService.getAll(draw, start, length, search));
+		roleService.getAll(draw, start, length, search);
 		return roleService.getAll(draw, start, length, search);
 
 	}
@@ -73,11 +76,13 @@ public class RoleController extends BaseController {
 		return "admin/role/auth";
 	}
 
+	@Log("授权认证")
 	@RequiresPermissions("authRole")
 	@PostMapping("doAuth")
 	@ResponseBody
-	public void doAuth(String roleId, HttpServletRequest req, String[] mid) {
+	public ServerResponse<String> doAuth(String roleId, HttpServletRequest req, String[] mid) {
 		roleService.addAuth(roleId, mid);
+		return ServerResponse.createBySuccess();
 	}
 
 	@RequiresPermissions("editRole")
@@ -88,11 +93,13 @@ public class RoleController extends BaseController {
 		return "admin/role/edit";
 	}
 
+	@Log("编辑角色")
 	@RequiresPermissions("editRole")
 	@PostMapping("/doEdit")
 	@ResponseBody
-	public void doEdit(SysRole role) {
+	public ServerResponse<String> doEdit(SysRole role) {
 		roleService.editRole(role);
+		return ServerResponse.createBySuccess();
 	}
 
 	@RequiresPermissions("addRole")
@@ -101,21 +108,26 @@ public class RoleController extends BaseController {
 		SysRole role = roleService.getRole(id);
 		model.addAttribute("role", role);
 		return "admin/role/add";
+
 	}
 
+	@Log("添加角色")
 	@RequiresPermissions("addRole")
 	@PostMapping("/doAdd")
 	@ResponseBody
-	public void doAdd(SysRole role) {
+	public ServerResponse<String> doAdd(SysRole role) {
 		role.setId(UUID.randomUUID().toString());
 		roleService.addRole(role);
+		return ServerResponse.createBySuccess();
 	}
 
+	@Log("删除角色")
 	@RequiresPermissions("deleteRole")
 	@GetMapping("/delete/{id}")
 	@ResponseBody
-	public void delete(@PathVariable String id) {
+	public ServerResponse<String> delete(@PathVariable String id) {
 		roleService.deleteById(id);
+		return ServerResponse.createBySuccess();
 	}
 
 }

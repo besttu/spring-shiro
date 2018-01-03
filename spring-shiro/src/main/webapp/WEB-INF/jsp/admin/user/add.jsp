@@ -13,16 +13,16 @@
 			<div class="form-group">
 				<label for="username">用户名</label> <input type="text" id="username"
 					name="username" class="form-control" value="${u.username }"
-					placeholder="请输入用户名长度大于等于5" lay-verify="title">
+					placeholder="请输入用户名至少得2个字符" lay-verify="title">
 			</div>
 			<div class="form-group">
-				<label for="password">密码</label> <input type="text" id="password"
-					name="password" value="" class="form-control" lay-verify="pass"
-					laceholder="不填写则为默认密码">
+				<label for="password">密码</label> <input type="password"
+					id="password" name="password" value="" class="form-control"
+					lay-verify="pass" laceholder="不填写则为默认密码">
 			</div>
 			<div class="form-group">
-				<label for="username">确认密码</label> <input type="text" name="null"
-					value="" class="form-control" laceholder="不填写则为默认密码"
+				<label for="username">确认密码</label> <input type="password"
+					name="null" value="" class="form-control" laceholder="不填写则为默认密码"
 					lay-verify="validateP">
 			</div>
 			<div class="form-group">
@@ -53,7 +53,9 @@
 
 		<div class="form-group">
 			<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-			<button class="layui-btn layui-btn-primary" lay-filter="cancle">取消</button>
+			<button class="layui-btn layui-btn-primary">
+				<a href="javascript:parent.layer.closeAll('iframe');">取消</a>
+			</button>
 		</div>
 		</div>
 		<!-- /.box-body -->
@@ -89,9 +91,10 @@
 	form.on('submit(demo1)', function(data) {
 		$.post("admin/user/doAdd/", $("#form1").serialize(), function(d, s) {
 			console.log(d)
-			if (s = "success") {
+			console.log(s)
+			if (d.status == 0) {
 				parent.layer.closeAll()
-				parent.reload("添加成功0")
+				parent.reload("添加成功")
 			} else {
 				layer.msg("修改失败")
 			}

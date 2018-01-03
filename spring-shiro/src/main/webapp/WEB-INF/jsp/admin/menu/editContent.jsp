@@ -35,19 +35,14 @@
 					placeholder="请输入用户名长度大于等于2" lay-verify=required>
 			</div>
 			<div class="form-group">
-				<label for="username">资源名称</label> <input type="text" name="resource"
-					value="${menu.resource }" class="form-control" laceholder=""
-					lay-verify="required">
+				<label for="username">资源名称</label> <input type="text"
+					name="resource" value="${menu.resource }" class="form-control"
+					laceholder="" lay-verify="required">
 			</div>
 			<div class="form-group">
 				<label for="username">排序</label> <input type="text" name="sort"
 					value="${menu.sort }" class="form-control" laceholder=""
 					lay-verify="validateP">
-			</div>
-			<div class="form-group">
-				<label for="username">图标</label> <input type="text" name="icon"
-					value="${menu.icon }" class="form-control" laceholder=""
-					lay-verify="required">
 			</div>
 		</div>
 		<div class="form-group">
@@ -81,9 +76,9 @@
 	//监听提交  
 	form.on('submit(demo1)', function(data) {
 		$.post("admin/menu/doEdit/", $("#form1").serialize(), function(d, s) {
-			if (s = "success") {
+			if (d.status == 0) {
 				parent.layer.closeAll()
-				parent.reload("编辑成功0")
+				parent.reload("编辑成功")
 			} else {
 				layer.msg("修改失败")
 			}

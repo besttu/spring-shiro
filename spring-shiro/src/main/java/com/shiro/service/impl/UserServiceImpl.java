@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.StringUtil;
 import com.mysql.fabric.xmlrpc.base.Data;
+import com.shiro.anno.Log;
 import com.shiro.common.GlobalSetting;
 import com.shiro.common.shiro.MyRealm;
 import com.shiro.common.shiro.PasswordHash;
@@ -86,7 +87,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return l;
 	}
-
 	@Override
 	public void deleteUser(String id) {
 		// TODO Auto-generated method stub

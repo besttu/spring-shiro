@@ -12,6 +12,11 @@
         ">
 	<!-- 配置包扫描器，扫描@Controller注解的类 -->
 	<context:component-scan base-package="com.shiro.controller" />
+	<context:component-scan base-package="com.shiro.aspect" />
+
+	<!-- 开启aop，对类代理 -->
+	<aop:config proxy-target-class="true" />
+	<aop:aspectj-autoproxy proxy-target-class="true" />
 	<bean
 		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="messageConverters">
@@ -38,7 +43,7 @@
 		/> -->
 	<!-- 配置注解驱动 -->
 	<mvc:annotation-driven />
-	<aop:aspectj-autoproxy expose-proxy="true" />
+	<!-- 开启aop，对类代理 -->
 	<!-- 静态资源访问 -->
 	<mvc:default-servlet-handler />
 	<mvc:annotation-driven>
