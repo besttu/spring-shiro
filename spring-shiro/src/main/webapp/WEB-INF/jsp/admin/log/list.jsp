@@ -14,17 +14,10 @@
 		<div class="col-xs-12" style="height: 800px">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">角色管理</h3>
+					<h3 class="box-title">用户日志</h3>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
-					<shiro:hasPermission name="addRole">
-						<div class="input-group">
-							<a class="btn btn-primary layer1" href="javascript:;"
-								layer-url="admin/role/add" layer-url><i class="fa fa-plus"></i>
-								创建新角色</a>
-						</div>
-					</shiro:hasPermission>
 					<table id="example1" action=""
 						class="table table-bordered table-hover dataTable">
 						<thead>
@@ -54,7 +47,6 @@
 			"drawCallback" : function(settings) {
 				index.bindLayer()
 			},
-			"lengthChange" : false,
 			"info" : true,
 			"cache" : false,
 			"autoWidth" : false,

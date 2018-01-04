@@ -29,7 +29,6 @@
 </style>
 </head>
 <body class="hold-transition login-page">
-	<h3>${url }</h3>
 	<div class="login-box">
 		<div class="login-logo"></div>
 		<!-- /.login-logo -->
@@ -99,7 +98,7 @@ nice-validator-1.0.8 -->
 		function submitform() {
 			$.post("admin/doLogin", $("#form1").serialize(), function(d) {
 				if (d.status == 0) {
-					alert("successed")
+					window.location.href = '${path }' + 'admin/'
 				}
 			})
 		}

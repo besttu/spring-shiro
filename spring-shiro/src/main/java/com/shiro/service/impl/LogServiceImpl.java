@@ -30,6 +30,7 @@ public class LogServiceImpl implements LogService {
 	public DataTable<SysLog> getAll(int draw, int start, int length, String search) {
 		// TODO Auto-generated method stub
 		SysLogExample example = new SysLogExample();
+		example.setOrderByClause("createTime DESC");
 		Criteria c = example.createCriteria();
 		if (!StringUtils.isEmpty(search)) {
 			c.andTitleLike("%" + search + "%");
