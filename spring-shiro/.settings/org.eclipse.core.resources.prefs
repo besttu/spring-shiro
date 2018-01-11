@@ -1,6 +1,10 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
+encoding//src/main/java/com/shiro/pojo/we=UTF-8
+encoding//src/main/java/com/shiro/pojo/we/BaseMessage.java=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/admin/common/text.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/admin/index.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/admin/login.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/admin/user/list.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/jsp/error/404.jsp=UTF-8
+encoding/<project>=UTF-8

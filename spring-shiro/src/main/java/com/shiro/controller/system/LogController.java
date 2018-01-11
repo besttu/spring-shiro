@@ -1,6 +1,6 @@
 package com.shiro.controller.system;
 
-import java.util.List;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,8 +31,10 @@ public class LogController extends BaseController {
 	@RequestMapping("getAll")
 	@ResponseBody
 	public DataTable<SysLog> getAll(int draw, @RequestParam(defaultValue = "0") int start, int length,
-			HttpServletRequest req) {
+			HttpServletRequest req, Date start_date, Date end_date) {
+		System.out.println(start_date);
+		System.out.println(end_date);
 		String search = req.getParameter("search[value]");
-		return logService.getAll(draw, start, length, search);
+		return logService.getAll(draw, start, length, search, start_date, end_date);
 	}
 }

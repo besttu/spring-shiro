@@ -6,7 +6,8 @@
 <body>
 	<form id="form1" role="form" class="layui-form layui-form-pane"
 		method="GET">
-		<input type="hidden" id="id" name="id" value="${menu.id }">
+		<input type="hidden" id="id" name="id" value="${menu.id }"> <input
+			type="hidden" id="pid" name="pid" value="0">
 		<div class="box-body">
 			<div class="form-group">
 				<label for="password">编码</label> <input value="${menu.code }"
@@ -62,13 +63,15 @@
 	var form = layui.form
 	//监听提交  
 	form.on('submit(demo1)', function(data) {
-		$.post("admin/menu/doAdd", $("#form1").serialize(), function(d, s) {
-			if (d.status==0) {
+		$.post("admin/menu/doEdit", $("#form1").serialize(), function(d, s) {
+			if (d.status == 0) {
 				parent.layer.closeAll()
 				parent.reload("编辑成功")
 			} else {
 				layer.msg("修改失败")
 			}
+		}).error(function() {
+			layer.msg("修改失败")
 		})
 		return false;
 	});

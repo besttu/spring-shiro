@@ -111,7 +111,7 @@
 					</ul>
 				</li>
 				<!-- Control Sidebar Toggle Button -->
-				<li><a href="javascript:void(0)" onclick="index.refresh()"
+				<li><a href="javascript:void(0)" id="refresh1" onclick="index.refresh()"
 					data-toggle="control-sidebar"><i
 						class="glyphicon glyphicon-refresh"></i></a></li>
 			</ul>

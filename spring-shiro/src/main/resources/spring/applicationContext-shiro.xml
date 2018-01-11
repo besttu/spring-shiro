@@ -57,9 +57,12 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/admin/doLogin = anon
+				/admin/pay/ali_return_url = anon
+				/admin/pay/ali_notify_url = anon				
 				/admin/captcha = anon
+				/admin/we/t = anon
 				/logout = logout
-				/admin/**= authc
+				/admin/**= user
 			</value>
 		</property>
 	</bean>

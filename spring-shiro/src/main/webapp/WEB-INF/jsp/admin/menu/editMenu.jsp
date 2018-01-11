@@ -28,7 +28,11 @@
 					name="menuname" class="form-control" value="${menu.menuname }"
 					placeholder="请输入用户名长度大于等于2" lay-verify=required>
 			</div>
-
+			<div class="form-group">
+				<label for="url">地址</label> <input type="text" id="url" name="url"
+					class="form-control" value="${menu.url }"
+					placeholder="" lay-verify=required>
+			</div>
 			<div class="form-group">
 				<label for="username">排序</label> <input type="text" name="sort"
 					value="${menu.sort }" class="form-control" laceholder=""

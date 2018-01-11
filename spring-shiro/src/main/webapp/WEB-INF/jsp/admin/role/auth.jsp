@@ -64,6 +64,7 @@
 		$.post("admin/role/doAuth", $("#form1").serialize(), function(d, s) {
 			if (d.status == 0) {
 				parent.layer.closeAll()
+				parent.$("#refresh1").trigger("click");
 				parent.reload("授权成功");
 			} else {
 				layer.msg("修改失败")

@@ -53,10 +53,9 @@
 
 		<div class="form-group">
 			<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-			<button class="layui-btn layui-btn-primary">
-				<a href="javascript:parent.layer.closeAll('iframe');">取消</a>
-			</button>
-		</div>
+			<a class="btn btn-default"
+				href="javascript:parent.layer.closeAll('iframe');"><i
+				class="fa fa-angle-left"></i> 返回</a>
 		</div>
 		<!-- /.box-body -->
 	</form>
@@ -90,8 +89,6 @@
 	//监听提交  
 	form.on('submit(demo1)', function(data) {
 		$.post("admin/user/doAdd/", $("#form1").serialize(), function(d, s) {
-			console.log(d)
-			console.log(s)
 			if (d.status == 0) {
 				parent.layer.closeAll()
 				parent.reload("添加成功")

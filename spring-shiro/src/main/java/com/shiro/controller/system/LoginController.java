@@ -53,7 +53,6 @@ public class LoginController extends BaseController {
 			UsernamePasswordToken token = new UsernamePasswordToken(u.getUsername(), u.getPassword());
 			token.setRememberMe(true);
 			try {
-				System.out.println(u.toString());
 				currentUser.login(token);
 				return ServerResponse.createBySuccess();
 			} catch (UnknownAccountException uae) {

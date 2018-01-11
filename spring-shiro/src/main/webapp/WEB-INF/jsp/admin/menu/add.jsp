@@ -67,6 +67,11 @@
 									placeholder="请输入用户名长度大于等于2" lay-verify=required>
 							</div>
 							<div class="form-group">
+								<label for="url">地址</label> <input type="text" id="url"
+									name="url" class="form-control" value=""
+									placeholder="" lay-verify=required>
+							</div>
+							<div class="form-group">
 								<label for="username">排序</label> <input type="text" name="sort"
 									value="" class="form-control" laceholder=""
 									lay-verify="validateP">
@@ -156,7 +161,6 @@
 	 });
 	 }); */
 	//自定义验证规则
-
 	//监听提交  
 	form.on('submit(demo1)', function(data) {
 		$.post("admin/menu/doAdd", $("#form1").serialize(), function(d, s) {

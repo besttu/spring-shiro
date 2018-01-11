@@ -1,5 +1,6 @@
 package com.shiro.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -26,12 +27,35 @@ public class LogServiceImpl implements LogService {
 		logMapper.insert(log);
 	}
 
-	@Override
 	public DataTable<SysLog> getAll(int draw, int start, int length, String search) {
 		// TODO Auto-generated method stub
 		SysLogExample example = new SysLogExample();
 		example.setOrderByClause("createTime DESC");
 		Criteria c = example.createCriteria();
+		if (!StringUtils.isEmpty(search)) {
+			c.andTitleLike("%" + search + "%");
+		}
+		PageHelper.offsetPage(start, length);
+		List<SysLog> selectByExample = logMapper.selectByExample(example);
+		PageInfo<SysLog> page = new PageInfo<SysLog>(selectByExample);
+		long total = page.getTotal();
+		DataTable<SysLog> table = new DataTable<SysLog>();
+		table.setDraw(++draw);
+		table.setRecordsFiltered(total);
+		table.setRecordsTotal(total);
+		table.setData(selectByExample);
+		return table;
+	}
+
+	@Override
+	public DataTable<SysLog> getAll(int draw, int start, int length, String search, Date start_date, Date end_date) {
+		// TODO Auto-generated method stub
+		SysLogExample example = new SysLogExample();
+		example.setOrderByClause("createTime DESC");
+		Criteria c = example.createCriteria();
+		if (start_date != null && end_date != null) {
+			c.andCreatetimeBetween(start_date, end_date);
+		}
 		if (!StringUtils.isEmpty(search)) {
 			c.andTitleLike("%" + search + "%");
 		}

@@ -1,5 +1,6 @@
 package com.shiro.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.shiro.entity.SysDept;
@@ -10,6 +11,6 @@ public interface LogService {
 
 	public void insert(SysLog log);
 
-	public  DataTable<SysLog> getAll(int draw, int start, int length, String search);
+	public  DataTable<SysLog> getAll(int draw, int start, int length, String search, Date start_date, Date end_date);
 
 }

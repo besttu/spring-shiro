@@ -17,6 +17,20 @@
 					<h3 class="box-title">用户日志</h3>
 				</div>
 				<!-- /.box-header -->
+				<div class=" form-inline" style="text-align: center">
+					<div class="form-group">
+						<label for="exampleInputName2">开始日期</label> <input type="text"
+							name="start_date" id="start_date" placeholder="yyyy-MM-dd"
+							autocomplete="off" class="layui-input"
+							style="display: inline; width: 120px" />
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail2">结束日期</label> <input type="text"
+							class="form-control" id="end_date" name="end_date"
+							placeholder="yyyy-MM-dd" style="display: inline; width: 120px">
+					</div>
+					<a type="submit" id="btn_search" class="btn btn-default">搜索</a>
+				</div>
 				<div class="box-body">
 					<table id="example1" action=""
 						class="table table-bordered table-hover dataTable">
@@ -55,7 +69,11 @@
 			"serverSide" : true,
 			"ajax" : {
 				"url" : "admin/log/getAll",
-				"type" : "get"
+				"type" : "get",
+				"data" : function(d) {
+					d.start_date = $("#start_date").val()
+					d.end_date = $("#end_date").val()
+				}
 			},
 			"columns" : [ {
 				"data" : null
@@ -77,21 +95,20 @@
 			}, ]
 		});
 
-	})
-
-	function reload(msg) {
-		//当调用table.draw(false)只是实现了表格的局部刷新(局部刷新并不会更新list页面中的 o1变量，因此只能采用重新加载页面的方式)，只能采取list页面刷新的方式进行刷新
-		$("#content").load("admin/log/list", function() {
-			$(".header1").each(function() {
-				if ($(this).html() == 123) {
-					$(this).parent().parent().remove()
-				}
-			})
+		$("#btn_search").click(function() {
+			table.draw();
 		})
-		if (msg) {
-			layer.msg(msg)
-		}
+	})
+	function reload(msg) {
+
 	}
+	laydate = layui.laydate
+	laydate.render({
+		elem : '#start_date'
+	});
+	laydate.render({
+		elem : '#end_date'
+	});
 </script>
 
 <!-- /.content -->
