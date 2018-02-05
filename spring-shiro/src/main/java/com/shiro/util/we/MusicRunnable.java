@@ -24,7 +24,7 @@ public class MusicRunnable implements Runnable {
 
 	public void run() {
 		try {
-			List<MusicJson> json = WeChatUtil.execFIile("d:\\lib\\KuWo.py", content);
+			List<MusicJson> json = WeChatUtil.execFIile(content, null);
 			StringBuilder sb = new StringBuilder();
 			for (MusicJson j : json) {
 				sb.append("歌曲:" + j.getSongname() + "\n");

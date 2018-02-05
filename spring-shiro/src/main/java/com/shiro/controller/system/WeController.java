@@ -2,6 +2,9 @@ package com.shiro.controller.system;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -15,15 +18,25 @@ import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.shiro.controller.BaseController;
+import com.shiro.pojo.MovieJson;
 import com.shiro.pojo.MusicJson;
+import com.shiro.pojo.we.Movie;
+import com.shiro.service.impl.MovieServiceImpl;
 import com.shiro.util.we.CheckUtil;
+import com.shiro.util.we.CloudRunnable;
 import com.shiro.util.we.MessageUtil;
+import com.shiro.util.we.MovieRunnable;
 import com.shiro.util.we.MusicRunnable;
 import com.shiro.util.we.WeChatUtil;
 
@@ -36,11 +49,17 @@ import com.shiro.util.we.WeChatUtil;
 @Controller
 @RequestMapping("/admin/we")
 public class WeController extends BaseController {
+	// private String filePath = "/root/python/aiqiyi.py";
+	private String filePath = "d://lib//aiqiyi.py";
 	ExecutorService pool = Executors.newFixedThreadPool(3);
 	@Autowired
 	EhCacheCacheManager cacheManger;
 	// 创建一个线程池
 	ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+	@Autowired
+	JdbcTemplate jdbcTempate;
+	@Autowired
+	MovieServiceImpl movieService;
 
 	@GetMapping("/t")
 	public void getMessge(ServletRequest req, HttpServletResponse resp) throws IOException {
@@ -51,7 +70,6 @@ public class WeController extends BaseController {
 		PrintWriter out = resp.getWriter();
 		if (CheckUtil.checkSignature(signature, timestamp, nonce)) {
 			out.print(echostr);
-			System.out.println("echostr:" + echostr);
 		}
 
 	}
@@ -69,7 +87,6 @@ public class WeController extends BaseController {
 			String msgType = map.get("MsgType");
 			String content = map.get("Content");
 			String message = null;
-			System.out.println("type:" + msgType);
 			String key = cache.get(fromUserName, String.class);
 			logger.info("key:" + key);
 			if (MessageUtil.MESSAGE_TEXT.equals(msgType)) {
@@ -80,8 +97,14 @@ public class WeController extends BaseController {
 					} else {
 						switch (key) {
 						case "1":
-							message = "电影开始查找:" + content;
-							message = MessageUtil.initText(toUserName, fromUserName, "公众号正在完善.....");
+							List<Movie> listByLike = movieService.getListByLike(content, content);
+							if (!listByLike.isEmpty()) {
+								message = MessageUtil.initNewsMessage(listByLike, fromUserName, toUserName);
+								pool.execute(new MovieRunnable(fromUserName, WeChatUtil.getAccessToken(cacheManger),
+										content, listByLike));
+							} else {
+								message = MessageUtil.initText(toUserName, fromUserName, "你搜索的内容为空");
+							}
 							break;
 						case "2":
 							message = "音乐开始查找:" + content;
@@ -91,9 +114,14 @@ public class WeController extends BaseController {
 							break;
 						case "3":
 							message = "稍后将发送给你:" + content;
-							pool.execute(
-									new MusicRunnable(fromUserName, WeChatUtil.getAccessToken(cacheManger), "接口正对接中"));
-							message = MessageUtil.initText(toUserName, fromUserName, message);
+							List<MovieJson> json = WeChatUtil.execFIile1(content, filePath);
+							message = MessageUtil.initNewsMessage1(json, fromUserName, toUserName);
+							// pool.execute(
+							// new CloudRunnable(fromUserName,
+							// WeChatUtil.getAccessToken(cacheManger),
+							// content));
+							// message = MessageUtil.initText(toUserName,
+							// fromUserName, message);
 							break;
 						}
 					}
@@ -140,7 +168,9 @@ public class WeController extends BaseController {
 			}
 			System.out.println(message);
 			out.println(message);
-		} catch (DocumentException e) {
+		} catch (
+
+		DocumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -5,8 +5,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,9 +17,10 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import com.shiro.pojo.MusicJson;
+import com.shiro.pojo.MovieJson;
 import com.shiro.pojo.we.Image;
 import com.shiro.pojo.we.ImageMessage;
+import com.shiro.pojo.we.Movie;
 import com.shiro.pojo.we.Music;
 import com.shiro.pojo.we.MusicMessage;
 import com.shiro.pojo.we.News;
@@ -32,7 +35,7 @@ import com.thoughtworks.xstream.XStream;
  *
  */
 public class MessageUtil {
-
+	public static final String URL_INTERFACE = "http://www.52rjb.cn/vip1/?url=";
 	public static final String MESSAGE_TEXT = "text";
 	public static final String MESSAGE_NEWS = "news";
 	public static final String MESSAGE_IMAGE = "image";
@@ -117,9 +120,9 @@ public class MessageUtil {
 	public static String menuText() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("欢迎您的关注，请按照菜单提示进行相应的回复：\n\n");
-		sb.append("1、电影资源\n");
+		sb.append("1、电影下载\n");
 		sb.append("2、音乐\n");
-		sb.append("3、网盘搜索\n\n");
+		sb.append("3、在线电影\n\n");
 		sb.append("回复0调出此菜单。");
 		return sb.toString();
 	}
@@ -133,17 +136,6 @@ public class MessageUtil {
 		StringBuffer sb = new StringBuffer();
 		sb.append("欢迎您的关注，\n");
 		return null;
-	}
-
-	public static String threeMenu() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("词组翻译使用指南\n\n");
-		sb.append("使用示例：\n");
-		sb.append("翻译足球\n");
-		sb.append("翻译中国足球\n");
-		sb.append("翻译football\n\n");
-		sb.append("回复0显示主菜单。");
-		return sb.toString();
 	}
 
 	/**
@@ -215,22 +207,51 @@ public class MessageUtil {
 		return message;
 	}
 
-	public static String initNewsMessage(List<MusicJson> json, String fromUserName, String toUserName) {
+	public static String initNewsMessage(List<Movie> movie, String fromUserName, String toUserName) {
 		String message = null;
-		List<News> newsList = new ArrayList<News>();
 		NewsMessage newsMessage = new NewsMessage();
-
-		if (json == null) {
+		List<News> newsList = new ArrayList<News>();
+		if (movie == null) {
 			return MessageUtil.initText(toUserName, fromUserName, "搜索的内容为空");
 		}
-		for (MusicJson m : json) {
+		for (Movie m : movie) {
 			News news = new News();
-			news.setTitle("慕课网介绍");
-			news.setTitle(m.getSongname());
-			news.setDescription("歌手:" + m.getName());
-			news.setPicUrl("http://zapper.tunnel.mobi/Weixin/image/imooc.jpg");
-			news.setUrl("www.imooc.com");
+			news.setDescription(m.getOther());
+			news.setTitle(m.getTitle());
+			news.setPicUrl(m.getImg());
+			news.setUrl("www.baidu.com");
 			newsList.add(news);
+		}
+
+		newsMessage.setToUserName(fromUserName);
+		newsMessage.setFromUserName(toUserName);
+		newsMessage.setCreateTime(new Date().getTime());
+		newsMessage.setMsgType(MESSAGE_NEWS);
+		newsMessage.setArticles(newsList);
+		newsMessage.setArticleCount(newsList.size());
+
+		message = newsMessageToXml(newsMessage);
+		return message;
+	}
+
+	public static String initNewsMessage1(List<MovieJson> movie, String fromUserName, String toUserName) {
+		String message = null;
+		Set<String> s = new HashSet<String>();
+		NewsMessage newsMessage = new NewsMessage();
+		List<News> newsList = new ArrayList<News>();
+		if (movie == null) {
+			return MessageUtil.initText(toUserName, fromUserName, "搜索的内容为空");
+		}
+		for (MovieJson m : movie) {
+			if (!s.contains(m.getImg())) {
+				News news = new News();
+				s.add(m.getImg());
+				news.setDescription(m.getTitle());
+				news.setTitle(m.getTitle());
+				news.setPicUrl(m.getImg());
+				news.setUrl(URL_INTERFACE + m.getUrl());
+				newsList.add(news);
+			}
 		}
 
 		newsMessage.setToUserName(fromUserName);
@@ -321,7 +342,7 @@ public class MessageUtil {
 	 */
 	public static String cloudMessage() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("请直接回复网盘名字 \n\n");
+		sb.append("请直接回复电影名字 \n\n");
 		sb.append("回复0 返回上一级\n");
 		return sb.toString();
 	}

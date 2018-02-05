@@ -252,6 +252,13 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.5.2</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.baidu.aip/java-sdk -->
+		<dependency>
+			<groupId>com.baidu.aip</groupId>
+			<artifactId>java-sdk</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>spring-shiro</finalName>

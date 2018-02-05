@@ -2,6 +2,7 @@ package com.shiro.util.we;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -20,19 +21,29 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.shiro.pojo.MovieJson;
 import com.shiro.pojo.MusicJson;
 import com.shiro.pojo.we.AccessToken;
 import com.shiro.pojo.we.Message;
 
 public class WeChatUtil {
+	private static Logger log = LoggerFactory.getLogger(WeChatUtil.class);
 	private static String SEND_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN";
 	private static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+//	private static String APPID = "wxc9a0833e48b8a214";//
+//	private static String APPSECRET = "0235493def8d74dd305fd5da85b95e8c";
+//	private static String FILE_PATH = "/root/KuWo.py";
+	private static String APPID = "wx35bc6249004e2471";//
+	private static String APPSECRET = "da6558fee9afc2d85b97618a162c6af6";
+	private static String FILE_PATH = "d://lib//KuWo.py";
 
 	/**
 	 * get请求
@@ -54,10 +65,12 @@ public class WeChatUtil {
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpPost httpost = new HttpPost(url);
 		// JSONObject jsonObject = null;
-		Gson gson = new Gson();
 		httpost.setEntity(new StringEntity(outStr, "UTF-8"));
 		HttpResponse response = client.execute(httpost);
 		String result = EntityUtils.toString(response.getEntity(), "UTF-8");
+		log.info("url:" + url);
+		log.info("message:" + outStr);
+		log.info("result:" + result);
 		// jsonObject = gson.fromJson(result, classOfT);
 	}
 
@@ -80,12 +93,12 @@ public class WeChatUtil {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		String url = ACCESS_TOKEN_URL.replace("APPID", "wx35bc6249004e2471").replace("APPSECRET",
-				"da6558fee9afc2d85b97618a162c6af6");
+		String url = ACCESS_TOKEN_URL.replace("APPID", APPID).replace("APPSECRET", APPSECRET);
 		String jsonObject = doGetStr(url);
 		Gson gson = new Gson();
 		AccessToken fromJson = gson.fromJson(jsonObject, AccessToken.class);
 		String token = fromJson.getToken();
+		log.info("................helloworld.........获取一次token：" + token);
 		try {
 			if (token != null) {
 				cache.put("key1", token);
@@ -125,8 +138,13 @@ public class WeChatUtil {
 	 *            关键词
 	 * @return
 	 */
-	public static List<MusicJson> execFIile(String filePath, String word) {
-		String[] arguments = new String[] { "python", "d:\\lib\\KuWo.py ", word };
+	public static List<MusicJson> execFIile(String word, String filePath) {
+		String[] arguments;
+		if (filePath == null) {
+			arguments = new String[] { "python", FILE_PATH, word };
+		} else {
+			arguments = new String[] { "python", filePath, word };
+		}
 		try {
 			Runtime runtime = Runtime.getRuntime();
 			runtime.exec(arguments);
@@ -142,8 +160,41 @@ public class WeChatUtil {
 			int re = process.waitFor();
 			List<MusicJson> fromJson = g.fromJson(sb.toString(), new TypeToken<List<MusicJson>>() {
 			}.getType());
-			// LinkedTreeMap
-			return re == 0 ? fromJson : null;
+			return fromJson;
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return null;
+	}
+
+	public static List<MovieJson> execFIile1(String word, String filePath) {
+		String[] arguments;
+		if (filePath == null) {
+			arguments = new String[] { "python", FILE_PATH, word };
+		} else {
+			arguments = new String[] { "python", filePath, word };
+		}
+		try {
+			Runtime runtime = Runtime.getRuntime();
+			runtime.exec(arguments);
+			Process process = Runtime.getRuntime().exec(arguments);
+			BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			StringBuilder sb = new StringBuilder();
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				sb.append(line);
+			}
+			Gson g = new Gson();
+			in.close();
+			System.out.println("sb:" + sb.toString());
+			if (sb.length() < 5) {
+				return null;
+			}
+			int re = process.waitFor();
+			List<MovieJson> fromJson = g.fromJson(sb.toString(), new TypeToken<List<MovieJson>>() {
+			}.getType());
+			return fromJson;
 		} catch (Exception e) {
 			e.printStackTrace();
 

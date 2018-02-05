@@ -1,6 +1,8 @@
 package com.shiro.service.impl;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,8 @@ public class TaskJob {
 	EhCacheCacheManager cacheManger;
 
 	public void job1() {
-		System.out.println("test1.........................");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+		System.out.println("test1........................." + df.format(new Date()));
 		try {
 			WeChatUtil.getAccessToken(cacheManger);
 		} catch (ParseException e) {
@@ -26,4 +29,5 @@ public class TaskJob {
 			e.printStackTrace();
 		}
 	}
+
 }
